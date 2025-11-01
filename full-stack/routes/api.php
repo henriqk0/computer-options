@@ -24,6 +24,6 @@ Route::put(
 )->name('updateAnyComponent');
 
 Route::delete(
-    'deleteAnyComponent',
+    'deleteAnyComponent/{id}',
     [AnyComponentController::class, 'deleteAnyComponent']
 )->name('deleteAnyComponent');

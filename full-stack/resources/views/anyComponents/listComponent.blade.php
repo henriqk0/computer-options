@@ -73,8 +73,7 @@
     </div>
 
     <!-- Modal for Add/Edit Component -->
-    <div id="componentModal"
-        class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+    <div id="componentModal" class="hidden fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-screen overflow-y-auto">
             <div class="p-6">
                 <div class="flex items-center justify-between mb-6">
@@ -137,6 +136,24 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-4">Confirmar Exclusão</h3>
+            <p class="text-gray-600 mb-6">Tem certeza que deseja excluir este componente? Esta ação não pode ser
+                desfeita.</p>
+            <div class="flex space-x-3">
+                <button id="btnConfirmDelete"
+                    class="flex-1 bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition font-medium">
+                    Excluir
+                </button>
+                <button id="btnCancelDelete"
+                    class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-medium">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
