@@ -70,6 +70,58 @@
         <div id="cardView" class="md:hidden space-y-4">
             <!-- Cards will be inserted here -->
         </div>
+
+        <!-- Pagination -->
+        <div id="pagination"
+            class="hidden mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white px-4 py-3 rounded-lg shadow">
+            <!-- Info -->
+            <div class="text-sm text-gray-700 order-2 sm:order-1">
+                Mostrando <span id="paginationInfo" class="font-medium">1-10 de 100</span> componentes
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex items-center space-x-2 order-1 sm:order-2">
+                <button id="btnFirstPage"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                    </svg>
+                </button>
+
+                <button id="btnPrevPage"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                        </path>
+                    </svg>
+                </button>
+
+                <div id="pageNumbers" class="hidden sm:flex items-center space-x-1">
+                    <!-- Page numbers will be inserted here -->
+                </div>
+
+                <span class="sm:hidden text-sm font-medium text-gray-700">
+                    Página <span id="currentPageMobile">1</span> de <span id="lastPageMobile">10</span>
+                </span>
+
+                <button id="btnNextPage"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+
+                <button id="btnLastPage"
+                    class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 5l7 7-7 7M5 5l7 7-7 7">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Modal for Add/Edit Component -->

@@ -8,10 +8,12 @@ use App\Models\AnyComponent;
 
 class AnyComponentController extends Controller
 {
-    public function listAnyComponent()
+    public function listAnyComponent(Request $request)
     {
         try {
-            $comps = AnyComponent::all();
+            $perPage = $request->get('per_page', 8);
+            $perPage = min($perPage, 80); # limit
+            $comps = AnyComponent::paginate($perPage);
             return response()->json($comps, 200);
 
         } catch (Exception $e) {

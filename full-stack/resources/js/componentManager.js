@@ -8,6 +8,7 @@ if (csrfToken) {
 
 // state and dom elements
 let components = [];
+let pagination = {};
 let editingComponentId = null;
 let deletingComponentId = null;
 
@@ -69,11 +70,21 @@ function getColorClass(index) {
 }
 
 // functions to consume API
-async function loadComponents() {
+async function loadComponents(page = 1, perPage = 8) {
     showLoading();
     try {
-        const response = await axios.get('/listAnyComponent');
-        components = response.data;
+        const response = await axios.get('/listAnyComponent', {
+            params: { page, per_page: perPage }
+        });
+
+        components = response.data.data;
+        pagination = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page,
+            next_page_url: response.data.next_page_url,
+            prev_page_url: response.data.prev_page_url,
+            total: response.data.total,
+        }
         renderComponents();
     } catch (error) {
         showError('Erro ao carregar componentes: ' + (error.response?.data?.message || error.message));
@@ -126,9 +137,59 @@ async function deleteComponent(id) {
 }
 
 // render front-end multi-elements display mode
+function renderPagination() {
+    const paginationDiv = document.getElementById('pagination');
+    const paginationInfo = document.getElementById('paginationInfo');
+    const pageNumbers = document.getElementById('pageNumbers');
+    const currentPageMobile = document.getElementById('currentPageMobile');
+    const lastPageMobile = document.getElementById('lastPageMobile');
+    const btnFist = document.getElementById('btnFirstPage');
+    const btnPrev = document.getElementById('btnPrevPage');
+    const btnNext = document.getElementById('btnNextPage');
+    const btnLast = document.getElementById('btnLastPage');
+
+    if (!pagination.total || pagination.total === 0) {
+        paginationDiv.classList.add('hidden');
+        return
+    }
+
+    paginationDiv.classList.remove('hidden');
+
+    // calculating items exposed
+    const start = (pagination.current_page - 1) * 8 + 1;
+    const end = Math.min(pagination.total, pagination.current_page * 8);
+
+    paginationInfo.textContent = `Mostrando ${start}-${end} de ${pagination.total}`;
+    currentPageMobile.textContent = pagination.current_page;
+    lastPageMobile.textContent = pagination.last_page;
+
+    btnFist.disabled = pagination.current_page === 1;
+    btnPrev.disabled = pagination.prev_page_url === null;
+    btnNext.disabled = pagination.next_page_url === null;
+    btnLast.disabled = pagination.current_page === pagination.last_page;
+
+    const maxVisible = 5;
+    let startPage = Math.max(1, pagination.current_page - Math.floor(maxVisible / 2));
+    let endPage = Math.min(pagination.last_page, startPage + maxVisible - 1);
+
+    if (endPage - startPage + 1 < maxVisible) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+
+    pageNumbers.innerHTML = '';
+    for(let i = startPage; i <= endPage; i++) {
+        const btn = document.createElement('button');
+        btn.textContent = i;
+        btn.className = `px-3 py-1 text-sm rounded-md ${i === pagination.current_page ? 'bg.blue-600 text-white font-semibold' : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'}`;
+        btn.addEventListener('click', () => loadComponents(i));
+        pageNumbers.appendChild(btn)
+    }
+}
+
 function renderComponents() {
     renderTable();
     renderCards();
+    renderPagination();
 }
 
 function renderTable() {
@@ -296,17 +357,25 @@ document.getElementById('btnAddComponent').addEventListener('click', openAddModa
 document.getElementById('btnCloseModal').addEventListener('click', closeModal);
 document.getElementById('btnCancelModal').addEventListener('click', closeModal);
 
-if (deleteModal) {
-    document.getElementById('btnCancelDelete').addEventListener('click', closeDeleteModal);
-    document.getElementById('btnConfirmDelete').addEventListener('click', () => {
-        if (deletingComponentId) {
-            deleteComponent(deletingComponentId);
-        }
-    });
-    deleteModal.addEventListener('click', (e) => {
-        if (e.target === deleteModal) closeDeleteModal();
-m   });
-}
+document.getElementById('btnCancelDelete').addEventListener('click', closeDeleteModal);
+document.getElementById('btnConfirmDelete').addEventListener('click', () => {
+    if (deletingComponentId) {
+        deleteComponent(deletingComponentId);
+    }
+});
+deleteModal.addEventListener('click', (e) => {
+    if (e.target === deleteModal) closeDeleteModal();
+});
+
+document.getElementById('btnFirstPage').addEventListener('click', () => loadComponents(1));
+document.getElementById('btnPrevPage').addEventListener('click', () => {
+    if (pagination.prev_page_url) loadComponents(pagination.current_page - 1);
+});
+document.getElementById('btnNextPage').addEventListener('click', () => {
+    if (pagination.next_page_url) loadComponents(pagination.current_page + 1);
+});
+document.getElementById('btnLastPage').addEventListener('click', () => loadComponents(pagination.last_page));
+
 
 componentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
