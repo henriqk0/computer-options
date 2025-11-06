@@ -13,7 +13,7 @@
         <h1 class="text-3xl font-bold text-gray-900 mb-4">Bem Vindo!</h1>
         <p class="text-gray-600">Não erre na escolha! Pesquise aqui a respeito do Componente (Periférico ou Hardware) em
             que tenha
-            interesse para conhecê-lo melhor e ser capaz de seguir a melhor opção.</p>
+            interesse para conhecê-lo melhor e ser capaz de tomar a melhor decisão.</p>
     </div>
 
     @include('home.main_body')

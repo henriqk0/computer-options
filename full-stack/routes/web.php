@@ -13,7 +13,3 @@ Route::get('/', function () {
 Route::get('listComponent', function () {
     return view('anyComponents.listComponent');
 })->name('listComponent');
-
-Route::get('newComponent', function () {
-    return view('anyComponents.newComponent');
-})->name('newComponent');
