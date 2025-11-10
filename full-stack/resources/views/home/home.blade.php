@@ -18,7 +18,7 @@
 
     @include('home.main_body')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/auth_user_wapi.js'])
 
     @include('home.footerjs')
 </body>

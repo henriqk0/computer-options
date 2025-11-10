@@ -211,7 +211,7 @@
     </div>
 
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/componentManager.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/componentManager.js', 'resources/js/auth_user_wapi.js'])
 
     @include('home.footerjs')
 

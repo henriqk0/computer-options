@@ -1,4 +1,3 @@
-axios.defaults.baseURL = '/api';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 const csrfToken = document.querySelector('meta[name="csrf-token"]');

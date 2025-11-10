@@ -1,0 +1,220 @@
+(function() {
+    const loginModal = document.getElementById('loginModal');
+    const registerModal = document.getElementById('registerModal');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    function openLoginModal() {
+        loginModal.classList.remove('hidden');
+        registerModal.classList.add('hidden');
+    }
+
+    function openRegisterModal() {
+        registerModal.classList.remove('hidden');
+        loginModal.classList.add('hidden');
+    }
+
+    function closeLoginModal() {
+        loginModal.classList.add('hidden');
+        loginForm.reset();
+    }
+
+    function closeRegisterModal() {
+        registerModal.classList.add('hidden');
+        registerForm.reset();
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('errorMessage');
+        const errorText = document.getElementById('errorText');
+        if (errorDiv && errorText) {
+            errorText.textContent = message;
+            errorDiv.classList.remove('hidden');
+            setTimeout(() => errorDiv.classList.add('hidden'), 5000);
+        } else {
+            alert(message);
+        }
+    }
+
+    function showSuccess(message) {
+        const successDiv = document.getElementById('successMessage');
+        const successText = document.getElementById('successText');
+        if (successDiv && successText) {
+            successText.textContent = message;
+            successDiv.classList.remove('hidden');
+            setTimeout(() => successDiv.classList.add('hidden'), 5000);
+        } else {
+            alert(message);
+        }
+    }
+
+    async function handleLogin(e) {
+        e.preventDefault();
+
+        const formData = {
+            email: document.getElementById('loginEmail').value,
+            password: document.getElementById('loginPassword').value
+        };
+
+        try {
+            const response = await axios.post('/login', formData);
+            closeLoginModal();
+
+            if (response.data.token) {
+                showSuccess(response.data.message || 'Login realizado com sucesso!');
+                localStorage.setItem('auth_token', response.data.token);
+                localStorage.setItem('auth_user', JSON.stringify(response.data.user));
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            }
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            if (error.response?.data?.errors) {
+                const errors = Object.values(error.response.data.errors).flat();
+                showError(errors.join(', '));
+            } else {
+                showError(error.response?.data?.message || 'Erro ao fazer login. Verifique suas credenciais.');
+            }
+        }
+    }
+
+    async function handleRegister(e) {
+        e.preventDefault();
+
+        const password = document.getElementById('registerPassword').value;
+        const passwordConfirmation = document.getElementById('registerPasswordConfirmation').value;
+
+        if (password !== passwordConfirmation) {
+            showError('As senhas não coincidem.');
+            return;
+        }
+
+        const formData = {
+            name: document.getElementById('registerName').value,
+            email: document.getElementById('registerEmail').value,
+            password: password,
+            password_confirmation: passwordConfirmation
+        };
+
+        try {
+            const response = await axios.post('/register', formData);
+
+            if (response.data.token) {
+                showSuccess(response.data.message || 'Cadastro realizado com sucesso!');
+                localStorage.setItem('auth_token', response.data.token);
+                localStorage.setItem('auth_user', JSON.stringify(response.data.user));
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            }
+
+            closeRegisterModal();
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            if (error.response?.data?.errors) {
+                const errors = Object.values(error.response.data.errors).flat();
+                showError(errors.join(', '));
+            } else {
+                showError(error.response?.data?.message || 'Erro ao criar conta. Tente novamente.');
+            }
+        }
+    }
+
+    async function handleLogout(trueLogout = true) {
+        try {
+            await axios.post('/logout');
+
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_user');
+            delete axios.defaults.headers.common['Authorization'];
+
+            // not send msg if axios intercept calls this function
+            if (trueLogout) showSuccess('Logout realizado com sucesso!');
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        } catch (error) {
+            showError('Erro ao fazer logout.');
+        }
+    }
+
+    // ========================
+    // Axios Interceptor
+    // ========================
+    axios.interceptors.response.use(
+        response => response,
+        async error => {
+            const originalRequest = error.config;
+
+            // error 401 and dont try refresh before
+            if (error.response?.status === 401 && !originalRequest._retry) {
+                originalRequest._retry = true;
+                try {
+                    const token = localStorage.getItem('auth_token');
+                    if (!refreshToken) throw new Error('Sem token de acesso.');
+
+                    const response = await axios.post('/refresh', null, {
+                        headers: { Authorization: `Bearer ${token}`}
+                    });
+
+                    const newToken = response.data.token;
+                    localStorage.setItem('auth_token', newToken);
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                    originalRequest.headers['Authorization'] = `Bearer ${token}`;
+
+                    return axios(originalRequest);  // repeat original request
+                } catch (e) {
+                    handleLogout(false);     // much time since invalid token
+                    return Promise.reject(e);
+                }
+            }
+        }
+    )
+
+
+    document.getElementById('btnCloseLogin').addEventListener('click', closeLoginModal);
+    document.getElementById('btnCloseRegister').addEventListener('click', closeRegisterModal);
+
+    document.getElementById('switchToRegister').addEventListener('click', openRegisterModal);
+    document.getElementById('switchToLogin').addEventListener('click', openLoginModal);
+
+    loginForm.addEventListener('submit', handleLogin);
+    registerForm.addEventListener('submit', handleRegister);
+
+    loginModal.addEventListener('click', (e) => {
+        if (e.target === loginModal) closeLoginModal();
+    });
+
+    registerModal.addEventListener('click', (e) => {
+        if (e.target === registerModal) closeRegisterModal();
+    });
+
+    window.openLoginModal = openLoginModal;
+    window.openRegisterModal = openRegisterModal;
+    window.handleLogout = handleLogout;
+
+    // to remove unnused buttons to user controll
+    const token = localStorage.getItem('auth_token');
+    const guestMenu = document.getElementById('guestMenu');
+    const guestMenuMobile = document.getElementById('guestMenuMobile');
+    const authMenu = document.getElementById('authMenu');
+    const authMenuMobile = document.getElementById('authMenuMobile');
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        if(guestMenu) guestMenu.remove();
+        if(guestMenuMobile) guestMenuMobile.remove();
+    }
+    else {
+        if(authMenu) authMenu.remove();
+        if(authMenuMobile) authMenuMobile.remove();
+    }
+
+    const user = JSON.parse(localStorage.getItem('auth_user'));
+    if (user) {
+        console.log(user);
+    }
+})();

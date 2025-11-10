@@ -51,6 +51,25 @@ class AuthController extends Controller
         ]);
     }
 
+    public function refresh()
+    {
+        try {
+            $newToken = Auth::refresh();
+            return response()->json([
+                'status' => 'success',
+                'token' => $newToken,
+            ]);
+        } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json(['error' => 'Invalid token'], 401);
+        }
+    }
+
+    public function logout()
+    {
+        Auth::logout(); // add token to blacklist
+        return response()->json(['message' => 'Deslogado com sucesso']);
+    }
+
     public function user()
     {
         return response()->json(Auth::user());
