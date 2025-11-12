@@ -21,6 +21,11 @@ Route::get(
     [AnyComponentController::class, 'listAnyComponent']
 )->name('listAnyComponent');
 
+Route::get(
+    'searchAnyComponent/{toSearch}',
+    [AnyComponentController::class, 'searchAnyComponent']
+)->name('searchAnyComponent');
+
 Route::middleware(['auth:api', 'role:user'])->put(
     'updateAnyComponent',
     [AnyComponentController::class, 'updateAnyComponent']
@@ -30,3 +35,4 @@ Route::middleware(['auth:api', 'role:user'])->delete(
     'deleteAnyComponent/{id}',
     [AnyComponentController::class, 'deleteAnyComponent']
 )->name('deleteAnyComponent');
+

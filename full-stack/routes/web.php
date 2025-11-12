@@ -13,3 +13,7 @@ Route::get('/', function () {
 Route::get('listComponent', function () {
     return view('anyComponents.listComponent');
 })->name('listComponent');
+
+Route::get('searchComponent/{toSearch}', function () {
+    return view('anyComponents.searchComponent');
+})->name('searchComponent');

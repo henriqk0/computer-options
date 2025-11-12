@@ -15,13 +15,36 @@ class AnyComponentController extends Controller
             $perPage = min($perPage, 80); # limit
             $comps = AnyComponent::paginate($perPage);
             return response()->json($comps, 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'message' => "Erro ao listar os componentes",
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function searchAnyComponent(Request $request, string $toSearch)
+    {
+        try {
+            $query = AnyComponent::where('nameComponent', 'LIKE', "%{$toSearch}%");
+
+            ($request->has('all') && $request->boolean('all')) ?
+                $comps = $query->get()
+                :
+                $comps = $query->take(10)->get();
+
+            return response()->json($comps, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao buscar componentes",
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function searchFeatured()
+    {
+        // display first top 10
     }
 
     public function createAnyComponent(Request $request)

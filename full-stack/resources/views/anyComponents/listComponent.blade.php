@@ -55,7 +55,8 @@
                                 Data Melhor Preço</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Melhor Preço</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider only-auth">
                                 Ações</th>
                         </tr>
                     </thead>
@@ -108,7 +109,8 @@
                 <button id="btnNextPage"
                     class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                        </path>
                     </svg>
                 </button>
 
@@ -209,7 +211,6 @@
             </div>
         </div>
     </div>
-
 
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/componentManager.js', 'resources/js/auth_user_wapi.js'])
 

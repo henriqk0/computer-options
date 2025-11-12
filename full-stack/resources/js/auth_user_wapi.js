@@ -1,3 +1,6 @@
+import { showSuccess, showError  } from "./utils/alerts";
+
+
 (function() {
     const loginModal = document.getElementById('loginModal');
     const registerModal = document.getElementById('registerModal');
@@ -24,29 +27,6 @@
         registerForm.reset();
     }
 
-    function showError(message) {
-        const errorDiv = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-        if (errorDiv && errorText) {
-            errorText.textContent = message;
-            errorDiv.classList.remove('hidden');
-            setTimeout(() => errorDiv.classList.add('hidden'), 5000);
-        } else {
-            alert(message);
-        }
-    }
-
-    function showSuccess(message) {
-        const successDiv = document.getElementById('successMessage');
-        const successText = document.getElementById('successText');
-        if (successDiv && successText) {
-            successText.textContent = message;
-            successDiv.classList.remove('hidden');
-            setTimeout(() => successDiv.classList.add('hidden'), 5000);
-        } else {
-            alert(message);
-        }
-    }
 
     async function handleLogin(e) {
         e.preventDefault();
@@ -175,6 +155,15 @@
         }
     )
 
+    document.querySelectorAll('.comp-searcher').forEach(input => {
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' ) {
+                const toSearchValue = e.target.value;
+                const url = route(`searchComponent`, { toSearch: toSearchValue });
+                window.location.href = url;
+            }
+        });
+    });
 
     document.getElementById('btnCloseLogin').addEventListener('click', closeLoginModal);
     document.getElementById('btnCloseRegister').addEventListener('click', closeRegisterModal);
