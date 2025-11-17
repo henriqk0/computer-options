@@ -14,7 +14,9 @@ class AnyComponentController extends Controller
             $perPage = $request->get('per_page', 8);
             $perPage = min($perPage, 80); # limit
             $comps = AnyComponent::paginate($perPage);
+
             return response()->json($comps, 200);
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => "Erro ao listar os componentes",
@@ -135,6 +137,27 @@ class AnyComponentController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => "Erro ao deletar o componente",
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function showAnyComponent($id)
+    {
+        try {
+            $anyComponent = AnyComponent::find($id);
+
+            if (!$anyComponent) {
+                return response()->json(["message" => "Componente não encontrado"], 404);
+            }
+
+            return response()->json([
+                'data' => $anyComponent
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao buscar o componente",
                 'error' => $e->getMessage()
             ], 500);
         }

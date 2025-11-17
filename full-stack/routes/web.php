@@ -17,3 +17,7 @@ Route::get('listComponent', function () {
 Route::get('searchComponent/{toSearch}', function () {
     return view('anyComponents.searchComponent');
 })->name('searchComponent');
+
+Route::get('show/{id}', function () {
+    return view('anyComponents.showComponent');
+})->name('showComponent');
