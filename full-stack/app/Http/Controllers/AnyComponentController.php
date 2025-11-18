@@ -146,13 +146,17 @@ class AnyComponentController extends Controller
     {
         try {
             $anyComponent = AnyComponent::find($id);
+            $total = $anyComponent->relatedReviews()->count();
+            $avg = $anyComponent->relatedReviews()->avg('rating');
 
             if (!$anyComponent) {
                 return response()->json(["message" => "Componente não encontrado"], 404);
             }
 
             return response()->json([
-                'data' => $anyComponent
+                'data' => $anyComponent,
+                'total' => $total,
+                'avgRating' => round($avg, 1)
             ], 200);
 
         } catch (Exception $e) {

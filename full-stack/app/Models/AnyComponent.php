@@ -16,4 +16,10 @@ class AnyComponent extends Model
     ];
 
     protected $hidden = ["created_at", "updated_at"];
+
+    public function relatedReviews()
+    {
+        return $this->hasMany(Review::class, 'anycomponent_id');
+    }
+
 }

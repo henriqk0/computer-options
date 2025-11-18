@@ -14,6 +14,10 @@ Route::get('listComponent', function () {
     return view('anyComponents.listComponent');
 })->name('listComponent');
 
+Route::get('myReviews', function () {
+    return view('reviews.myReviews');
+})->name('myReviews');
+
 Route::get('searchComponent/{toSearch}', function () {
     return view('anyComponents.searchComponent');
 })->name('searchComponent');

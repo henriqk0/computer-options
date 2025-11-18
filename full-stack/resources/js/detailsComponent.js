@@ -13,22 +13,31 @@ const url = window.location.href;
 const lastPart = url.substring(url.lastIndexOf('/') + 1);
 
 let detailedComponent = {};
-let topReviews = {};
+let reviews = {};
+let averangeScore = 0;
+let totalReviews = 0;
+let withAllFlag;
 
 
-async function fetchDetailedComps(index) {
+async function fetchDetailedComps(index, withAll=false) {
     showLoading();
     try {
         const responseDetail = await axios.get(`/showAnyComponent/${index}`);
+
         detailedComponent = responseDetail.data.data;
+        averangeScore = responseDetail.data.avgRating;
+        totalReviews = responseDetail.data.total;
 
         const compId = detailedComponent.anycomponent_id;
 
-        const responseBestReviews = await axios.get(`/listBestReview/${compId}`);
+        const responseReviews = !withAll
+            ?
+            await axios.get(`/listBestReview/${compId}`)
+            :
+            await axios.get(`/listAllReview/${compId}`);
 
-        topReviews = responseBestReviews.data;
-        console.log(topReviews);
-
+        withAllFlag = !withAll ? 0 : 1;
+        reviews = responseReviews.data;
 
         // const responseAllReviews = await axios.get(`/listAllReview/${compId}`);
 
@@ -118,14 +127,14 @@ async function renderDetailed() {
                                 <svg class="w-8 h-8 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                 </svg>
-                                <span class="text-3xl font-bold text-gray-900 ml-2">8.7</span>
+                                <span class="text-3xl font-bold text-gray-900 ml-2">${averangeScore}</span>
                             </div>
-                            <span class="text-gray-600 text-sm">/10 baseado em <strong>142 avaliações</strong></span>
+                            <span class="text-gray-600 text-sm">/10 baseado em <strong>${totalReviews} avaliações</strong></span>
                         </div>
                     </div>
 
                     <!-- Purchase Button -->
-                    <a href="${detailedComponent.bestPrice}" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition shadow-lg hover:shadow-xl">
+                    <a href="${detailedComponent.urlPrice}" target="_blank" class="inline-flex items-center justify-center w-full md:w-auto px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition shadow-lg hover:shadow-xl">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
@@ -138,19 +147,35 @@ async function renderDetailed() {
         <!-- Reviews Section -->
         <div id="review-section"class="bg-white rounded-lg shadow-lg p-6 md:p-8">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-gray-900">Avaliações</h2>
-                <button id="btnAddReview" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition only-auth">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                    Escrever avaliação
-                </button>
+                <h2 class="text-2xl font-bold text-gray-900 min-w-[150px]">Avaliações</h2>
+
+                <div class="grid gap-4 grid-cols-1 md:[&:has(*:nth-child(2))]:grid-cols-2">
+                    <button id="btnAddReview" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition only-auth">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Escrever avaliação
+                    </button>
+
+                    <button id="btnDisplayAllReviews" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+                        </svg>
+                        Ver todas avaliações
+                    </button>
+                </div>
             </div>
         </div>
     `
+    const displayAllbtn = document.getElementById('btnDisplayAllReviews');
+    displayAllbtn.addEventListener('click', () => {
+        fetchDetailedComps(lastPart, true)
+    });
+
+    if (withAllFlag) { displayAllbtn.remove() }
 
     const lastDiv = document.getElementById('review-section');
-    if (topReviews.length === 0) {
+    if (reviews.length === 0) {
         lastDiv.insertAdjacentHTML('beforeend', `
             <div class="space-y-6 flex flex-col items-center text-gray-400">
                 Ainda não foram escritas avaliações deste componente.
@@ -158,7 +183,7 @@ async function renderDetailed() {
         ` )
     }
     else {
-        const reviewsStr = topReviews.map((review) => `
+        const reviewsStr = reviews.map((review) => `
             <div class="space-y-6">
                 <div class="border border-gray-200 rounded-lg p-5 hover:shadow-md transition mb-4">
                     <div class="flex items-start justify-between mb-3">
@@ -423,6 +448,7 @@ async function renderReview() {
         addReviewModal.classList.add('hidden');
         reviewForm.reset();
     }
+
 
     async function createReview(formData) {
         try {

@@ -9,7 +9,6 @@
 
             <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center space-x-4">
-                <!-- Products Dropdown -->
                 <div class="relative dropdown">
                     <button
                         class="flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150">
@@ -28,6 +27,17 @@
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    <button id="reviewsLink"
+                        class="flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 only-auth">
+
+                        <a href="{{ route('myReviews') }}">
+                            <span>Minhas Reviews</span>
+                        </a>
+                    </button>
+                </div>
+
 
                 <!-- Search Input (Desktop) -->
                 <div class="relative">
@@ -123,8 +133,13 @@
     <!-- Mobile Menu -->
     <div id="mobileMenu" class="hidden md:hidden border-t border-gray-200">
         <div class="px-2 pt-2 pb-3 space-y-1">
-            <!-- Products Mobile Dropdown -->
             <div>
+                <button id="reviewsLinkMobile"
+                    class="flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 only-auth">
+                    <a href="{{ route('myReviews') }}">
+                        <span>Minhas Reviews</span>
+                    </a>
+                </button>
                 <button
                     class="mobile-dropdown-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100">
                     <span>Componentes</span>
@@ -184,7 +199,7 @@
     <div class="h-full flex flex-col">
         <!-- Modal Header -->
         <div class="flex items-center justify-between p-4 border-b border-gray-200">
-            <h2 class="text-lg font-semibold text-gray-900">Search</h2>
+            <h2 class="text-lg font-semibold text-gray-900">Buscar</h2>
             <button id="closeSearchModal" class="p-2 rounded-md text-gray-700 hover:bg-gray-100">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
@@ -196,7 +211,7 @@
         <!-- Search Input -->
         <div class="p-4">
             <div class="relative">
-                <input type="text" placeholder="Search..." autofocus
+                <input type="text" placeholder="Buscar..." autofocus
                     class="comp-searcher w-full pl-12 pr-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                 <svg class="absolute left-4 top-3.5 w-6 h-6 text-gray-400" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -208,7 +223,7 @@
 
         <!-- Search Results/Content Area -->
         <div class="flex-1 overflow-y-auto p-4">
-            <p class="text-gray-500 text-center mt-8">Start typing to search...</p>
+            <p class="text-gray-500 text-center mt-8">Procure pelo nome do componente para buscar...</p>
         </div>
     </div>
 </div>

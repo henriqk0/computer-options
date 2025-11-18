@@ -14,7 +14,7 @@ class ReviewController extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
-                'user_id' => 'required|exists:users,id',
+                'user_id' => 'required|exists:users,id|unique:reviews,user_id',
                 'anycomponent_id' => 'required|exists:tbl_anycomponent,anycomponent_id',
                 'rating' => 'required|integer|min:0|max:10',
             ]);
@@ -165,7 +165,7 @@ class ReviewController extends Controller
     public function listMyReview()
     {
         try {
-            $reviews = Review::where('user_id', auth()->id());
+            $reviews = Review::where('user_id', auth()->id())->with('anycomponent:anycomponent_id,nameComponent')->cursorPaginate(10);
             return response()->json($reviews, 200);
 
         } catch (Exception $e) {
