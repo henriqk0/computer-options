@@ -1,4 +1,4 @@
-import { formatDate, formatPrice, formatExtensiveDate} from "./utils/formatters";
+import { formatDate, formatPrice, formatExtensiveLongDate } from "./utils/formatters";
 import { hideLoading, showLoading } from "./utils/loading";
 import { showError, showSuccess } from "./utils/alerts";
 
@@ -195,7 +195,7 @@ async function renderDetailed() {
                             </div>
                             <div class="ml-3">
                                 <h4 class="font-semibold text-gray-900">${review.user.name}</h4>
-                                <p class="text-xs text-gray-500">${formatExtensiveDate(review.updated_at)}</p>
+                                <p class="text-xs text-gray-500">${formatExtensiveLongDate(review.updated_at)}</p>
                             </div>
                         </div>
                         <div class="flex items-center bg-yellow-100 px-3 py-1 rounded-full">
@@ -288,123 +288,128 @@ async function renderReview() {
         cannotDisplay.forEach(htmlElem => htmlElem.remove());
     }
 
-    btnAddReview.addEventListener('click', () => {
-        addReviewModal.classList.remove('hidden');
-        reviewTitle.focus();
-    });
-
-    btnCloseReviewModal.addEventListener('click', () => {
-        if (confirm('Descartar avaliação? Suas alterações não serão salvas.')) {
-            closeModal()
-            updateCharacterCount();
-            updateStarRating(0);
-        }
-    });
-
-    // character counter
-    function updateCharacterCount() {
-        const titleLength = reviewTitle.value.length;
-        const contentLength = reviewContent.value.length;
-        const totalLength = titleLength + contentLength;
-        characterCount.textContent = `${totalLength} caracteres`;
-    }
-
-    reviewTitle.addEventListener('input', updateCharacterCount);
-    reviewContent.addEventListener('input', updateCharacterCount);
-
-    // star rating system
-    const starButtons = document.querySelectorAll('.star-btn');
-
-    function updateStarRating(rating) {
-        reviewRating.value = rating;
-        ratingDisplay.textContent = `${rating}/10`;
-
-        if (rating === 0) {
-            ratingDisplay.classList.add('text-gray-400');
-            ratingDisplay.classList.remove('text-yellow-600');
-        } else {
-            ratingDisplay.classList.remove('text-gray-400');
-            ratingDisplay.classList.add('text-yellow-600');
-        }
-
-        starButtons.forEach((btn, index) => {
-            const star = btn.querySelector('svg');
-            if (index < rating) {
-                star.classList.remove('text-gray-300');
-                star.classList.add('text-yellow-400');
-            } else {
-                star.classList.add('text-gray-300');
-                star.classList.remove('text-yellow-400');
-            }
-        });
-    }
-
-    starButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const rating = parseInt(btn.getAttribute('data-rating'));
-            updateStarRating(rating);
+    if (btnAddReview) {
+        btnAddReview.addEventListener('click', () => {
+            addReviewModal.classList.remove('hidden');
+            reviewTitle.focus();
         });
 
-        btn.addEventListener('mouseenter', () => {
-            const rating = parseInt(btn.getAttribute('data-rating'));
-            starButtons.forEach((b, index) => {
-                const star = b.querySelector('svg');
-                if (index < rating) {
-                    star.classList.add('text-yellow-400');
-                    star.classList.remove('text-gray-300');
+        if (btnCloseReviewModal) {
+            btnCloseReviewModal.addEventListener('click', () => {
+                if (confirm('Descartar avaliação? Suas alterações não serão salvas.')) {
+                    closeModal()
+                    updateCharacterCount();
+                    updateStarRating(0);
                 }
             });
+        }
+
+        // character counter
+        function updateCharacterCount() {
+            const titleLength = reviewTitle.value.length;
+            const contentLength = reviewContent.value.length;
+            const totalLength = titleLength + contentLength;
+            characterCount.textContent = `${totalLength} caracteres`;
+        }
+
+        if (reviewTitle) reviewTitle.addEventListener('input', updateCharacterCount);
+        if (reviewContent) reviewContent.addEventListener('input', updateCharacterCount);
+
+        // star rating system
+        const starButtons = document.querySelectorAll('.star-btn');
+
+        function updateStarRating(rating) {
+            reviewRating.value = rating;
+            ratingDisplay.textContent = `${rating}/10`;
+
+            if (rating === 0) {
+                ratingDisplay.classList.add('text-gray-400');
+                ratingDisplay.classList.remove('text-yellow-600');
+            } else {
+                ratingDisplay.classList.remove('text-gray-400');
+                ratingDisplay.classList.add('text-yellow-600');
+            }
+
+            starButtons.forEach((btn, index) => {
+                const star = btn.querySelector('svg');
+                if (index < rating) {
+                    star.classList.remove('text-gray-300');
+                    star.classList.add('text-yellow-400');
+                } else {
+                    star.classList.add('text-gray-300');
+                    star.classList.remove('text-yellow-400');
+                }
+            });
+        }
+
+        starButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const rating = parseInt(btn.getAttribute('data-rating'));
+                updateStarRating(rating);
+            });
+
+            btn.addEventListener('mouseenter', () => {
+                const rating = parseInt(btn.getAttribute('data-rating'));
+                starButtons.forEach((b, index) => {
+                    const star = b.querySelector('svg');
+                    if (index < rating) {
+                        star.classList.add('text-yellow-400');
+                        star.classList.remove('text-gray-300');
+                    }
+                });
+            });
         });
-    });
 
-    document.querySelector('.flex.space-x-1').addEventListener('mouseleave', () => {
-        const currentRating = parseInt(reviewRating.value);
-        updateStarRating(currentRating);
-    });
+        document.querySelector('.flex.space-x-1').addEventListener('mouseleave', () => {
+            const currentRating = parseInt(reviewRating.value);
+            updateStarRating(currentRating);
+        });
 
-    // form submission
-    reviewForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        if (reviewForm) {
+            // form submission
+            reviewForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-        const title = reviewTitle.value.trim();
-        const content = reviewContent.value.trim();
-        const rating = parseInt(reviewRating.value);
+                const title = reviewTitle.value.trim();
+                const content = reviewContent.value.trim();
+                const rating = parseInt(reviewRating.value);
 
-        if (!title) {
-            alert('Por favor, adicione um título à sua avaliação.');
-            reviewTitle.focus();
-            return;
+                if (!title) {
+                    alert('Por favor, adicione um título à sua avaliação.');
+                    reviewTitle.focus();
+                    return;
+                }
+
+                if (content.length < 50) {
+                    alert('Sua avaliação deve ter pelo menos 50 caracteres.');
+                    reviewContent.focus();
+                    return;
+                }
+
+                if (rating === 0) {
+                    alert('Por favor, selecione uma nota de 1 a 10.');
+                    return;
+                }
+
+                const idUser = JSON.parse(localStorage.getItem('auth_user')).id;
+
+                const formData = {
+                    title: title,
+                    content: content,
+                    rating: rating,
+                    anycomponent_id: detailedComponent.anycomponent_id,
+                    user_id: idUser
+                }
+                await createReview(formData);
+
+                addReviewModal.classList.add('hidden');
+                reviewForm.reset();
+                updateCharacterCount();
+                updateStarRating(0);
+            });
         }
-
-        if (content.length < 50) {
-            alert('Sua avaliação deve ter pelo menos 50 caracteres.');
-            reviewContent.focus();
-            return;
-        }
-
-        if (rating === 0) {
-            alert('Por favor, selecione uma nota de 1 a 10.');
-            return;
-        }
-
-
-        const idUser = JSON.parse(localStorage.getItem('auth_user')).id;
-
-        const formData = {
-            title: title,
-            content: content,
-            rating: rating,
-            anycomponent_id: detailedComponent.anycomponent_id,
-            user_id: idUser
-        }
-        await createReview(formData);
-
-        addReviewModal.classList.add('hidden');
-        reviewForm.reset();
-        updateCharacterCount();
-        updateStarRating(0);
-    });
+    }
 
     // expand/collapse review text
     document.querySelectorAll('.expand-btn').forEach(button => {
