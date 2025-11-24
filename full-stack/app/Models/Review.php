@@ -24,6 +24,6 @@ class Review extends Model
 
     public function anycomponent()
     {
-        return $this->belongsTo(AnyComponent::class, 'anycomponent_id');
+        return $this->belongsTo(AnyComponent::class, 'anycomponent_id', 'anycomponent_id');
     }
 }

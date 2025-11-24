@@ -59,6 +59,7 @@ class AnyComponentController extends Controller
                     'bestPrice' => ['required', 'numeric', 'between:0,99999999.99'],
                     'urlPrice' => ['nullable', 'string', 'max:170', 'url'],
                     'datePrice' => ['required', 'date'],
+                    'about' => ['nullable', 'string', 'max:600'],
                 ]
             );
 
@@ -99,6 +100,7 @@ class AnyComponentController extends Controller
                     'bestPrice' => ['required', 'numeric', 'between:0,99999999.99'],
                     'urlPrice' => ['nullable', 'string', 'max:170', 'url'],
                     'datePrice' => ['required', 'date'],
+                    'about' => ['nullable', 'string', 'max:600'],
                 ]
             );
 

@@ -296,6 +296,7 @@ function openAddModal() {
 function openEditModal(id) {
     const component = components.find(c => c.anycomponent_id === id);
     if (!component) return;
+    console.log(component);
 
     editingComponentId = id;
     modalTitle.textContent = 'Editar Componente';
@@ -306,6 +307,7 @@ function openEditModal(id) {
     document.getElementById('bestPrice').value = component.bestPrice;
     document.getElementById('urlPrice').value = component.urlPrice || '';
     document.getElementById('datePrice').value = component.datePrice;
+    document.getElementById('aboutComponent').value = component.about;
 
     componentModal.classList.remove('hidden');
 }
@@ -359,7 +361,8 @@ componentForm.addEventListener('submit', async (e) => {
         categoryLevel: document.getElementById('categoryLevel').value,
         bestPrice: parseFloat(document.getElementById('bestPrice').value),
         urlPrice: document.getElementById('urlPrice').value || null,
-        datePrice: document.getElementById('datePrice').value
+        datePrice: document.getElementById('datePrice').value,
+        about: document.getElementById('aboutComponent').value
     };
 
     if (editingComponentId) {
@@ -372,6 +375,11 @@ componentForm.addEventListener('submit', async (e) => {
 
 componentModal.addEventListener('click', (e) => {
     if (e.target === componentModal) closeModal();
+});
+
+document.getElementById("aboutComponent").addEventListener("input", function () {
+    document.getElementById("charCount").textContent =
+        `${this.value.length} / 600`;
 });
 
 // make functions global for onclick handlers

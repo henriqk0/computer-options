@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Review;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ReviewController extends Controller
 {
@@ -14,7 +15,13 @@ class ReviewController extends Controller
             $request->validate([
                 'title' => 'required|string|max:255',
                 'content' => 'required|string',
-                'user_id' => 'required|exists:users,id|unique:reviews,user_id',
+                'user_id' => [
+                    'required',
+                    'exists:users,id',
+                    Rule::unique('reviews')->where(function ($query) use ($request) {
+                        return $query->where('anycomponent_id', $request->anycomponent_id);
+                    }),
+                ],
                 'anycomponent_id' => 'required|exists:tbl_anycomponent,anycomponent_id',
                 'rating' => 'required|integer|min:0|max:10',
             ]);
@@ -57,8 +64,14 @@ class ReviewController extends Controller
                 [
                     'title' => 'required|string|max:255',
                     'content' => 'required|string',
-                    'user_id' => 'required|exists:users,id',
-                    'anycomponent_id' => 'required|exists:tbl_anycomponent,id',
+                    'user_id' => [
+                        'required',
+                        'exists:users,id',
+                        Rule::unique('reviews')
+                            ->where(fn($query) => $query->where('anycomponent_id', $request->anycomponent_id))
+                            ->ignore($review->id)
+                    ],
+                    'anycomponent_id' => 'required|exists:tbl_anycomponent,anycomponent_id',
                     'rating' => 'required|integer|min:0|max:10',
                 ]
             );

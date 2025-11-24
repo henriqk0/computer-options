@@ -135,7 +135,7 @@
         <div class="px-2 pt-2 pb-3 space-y-1">
             <div>
                 <button id="reviewsLinkMobile"
-                    class="flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 only-auth">
+                    class="flex items-center space-x-1 px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 w-full transition duration-150 only-auth">
                     <a href="{{ route('myReviews') }}">
                         <span>Minhas Reviews</span>
                     </a>

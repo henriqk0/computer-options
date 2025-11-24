@@ -91,31 +91,10 @@ async function renderDetailed() {
 
                     <!-- Specifications -->
                     <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Especificações</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Descrição</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <div class="flex items-center text-sm">
-                                <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-                                </svg>
-                                <span class="text-gray-700"><strong>Memória:</strong> 24GB GDDR6X</span>
-                            </div>
-                            <div class="flex items-center text-sm">
-                                <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                </svg>
-                                <span class="text-gray-700"><strong>TDP:</strong> 450W</span>
-                            </div>
-                            <div class="flex items-center text-sm">
-                                <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
-                                </svg>
-                                <span class="text-gray-700"><strong>Arquitetura:</strong> Ada Lovelace</span>
-                            </div>
-                            <div class="flex items-center text-sm">
-                                <svg class="w-5 h-5 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-                                </svg>
-                                <span class="text-gray-700"><strong>Interface:</strong> PCIe 4.0 x16</span>
+                                <span class="text-gray-700">${detailedComponent.about}</span>
                             </div>
                         </div>
                     </div>
@@ -227,6 +206,15 @@ async function renderDetailed() {
             </div>
         `).join('');
         lastDiv.insertAdjacentHTML('beforeend', reviewsStr);
+
+        // user already review the component, then not display add new review btn
+        if (localStorage.getItem('auth_user')) {
+            const userId = JSON.parse(localStorage.getItem('auth_user')).id;
+
+            if (reviews.some(review => review.user.id === userId)) {
+                document.getElementById('btnAddReview').remove();
+            }
+        }
     }
 
     window.returnPrevScreen =  function() {
@@ -245,7 +233,7 @@ fetchDetailedComps(lastPart);
 function fetchCategoryLabel(label, name) {
     const GPU = ['RTX', 'RX', 'ARC', 'GTX', 'QUADRO'];
     const CPU = ['RYZEN', 'I3', 'I5', 'I7', 'I9'];
-    const PERIPHERAL = ['Mouse' ,'Teclado', 'Headset', 'Headphone', 'Monitor', 'Caixa de Som', 'Microfone Mousepad'];
+    const PERIPHERAL = ['Mouse' ,'Teclado', 'Headset', 'Headphone', 'Monitor', 'Fone', 'Fone de Ouvido', 'Caixa de Som', 'Microfone Mousepad'];
 
     let lastLabel = "";
     const upper = name.toUpperCase();
@@ -423,6 +411,7 @@ async function renderReview() {
                 this.textContent = 'Ver mais';
             } else {
                 reviewText.textContent = fullText;
+                reviewText.innerHTML = fullText.replace(/\n/g, "<br>");
                 this.textContent = 'Ver menos';
             }
         });
