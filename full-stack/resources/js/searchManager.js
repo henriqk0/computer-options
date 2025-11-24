@@ -1,5 +1,6 @@
 import { formatDate, formatPrice } from "./utils/formatters";
 import { hideLoading, showLoading  } from "./utils/loading";
+import { showError  } from "./utils/alerts";
 
 
 let searchedComponents = [];
@@ -85,7 +86,7 @@ async function renderSearched() {
             </div>
 
             <div class="flex space-x-3 pt-4 border-t border-gray-200">
-                <button onclick="" class="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition font-medium only-auth">
+                <button onclick="openDetails(${comp.anycomponent_id})" class="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition font-medium details-btn">
                     <span>Ver detalhes</span>
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
@@ -95,21 +96,31 @@ async function renderSearched() {
         </div>
     `).join('');
 
-    cardView.insertAdjacentHTML('beforeend', `
-        <button onclick="" id="showAllSearched" class="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition font-medium only-auth">
-            <span>Exibir outros componentes encontrados</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-            </svg>
-        </button>
+    window.openDetails = function (idx) {
+        const urlShow = route(`showComponent`, { id: idx });
+        window.location.href = urlShow;
+    }
 
-    `);
+    // dont exist a query string, then create the button to call then
+    if (!queryString) {
+        cardView.insertAdjacentHTML('beforeend', `
+            <button onclick="" id="showAllSearched" class="flex-1 flex items-center justify-center space-x-2 px-4 py-3 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition font-medium">
+                <span>Exibir outros componentes encontrados</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
+            </button>
+        `);
 
-    document.getElementById('showAllSearched').addEventListener('click', () => {
-        const url = route(`searchComponent`, { toSearch: toSearch, all: true });
-        window.location.href = url;
-    })
+        const showAllBtn = document.getElementById('showAllSearched');
+
+        showAllBtn.addEventListener('click', () => {
+            const url = route(`searchComponent`, { toSearch: toSearch, all: true });
+            window.location.href = url;
+        })
+    }
 }
+
 
 // initial load
 (queryString) ? fetchSearchedComps(toSearch, queryString) : fetchSearchedComps(toSearch);

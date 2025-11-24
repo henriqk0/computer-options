@@ -14,7 +14,9 @@ class AnyComponentController extends Controller
             $perPage = $request->get('per_page', 8);
             $perPage = min($perPage, 80); # limit
             $comps = AnyComponent::paginate($perPage);
+
             return response()->json($comps, 200);
+
         } catch (Exception $e) {
             return response()->json([
                 'message' => "Erro ao listar os componentes",
@@ -57,6 +59,7 @@ class AnyComponentController extends Controller
                     'bestPrice' => ['required', 'numeric', 'between:0,99999999.99'],
                     'urlPrice' => ['nullable', 'string', 'max:170', 'url'],
                     'datePrice' => ['required', 'date'],
+                    'about' => ['nullable', 'string', 'max:600'],
                 ]
             );
 
@@ -97,6 +100,7 @@ class AnyComponentController extends Controller
                     'bestPrice' => ['required', 'numeric', 'between:0,99999999.99'],
                     'urlPrice' => ['nullable', 'string', 'max:170', 'url'],
                     'datePrice' => ['required', 'date'],
+                    'about' => ['nullable', 'string', 'max:600'],
                 ]
             );
 
@@ -135,6 +139,31 @@ class AnyComponentController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'message' => "Erro ao deletar o componente",
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function showAnyComponent($id)
+    {
+        try {
+            $anyComponent = AnyComponent::find($id);
+            $total = $anyComponent->relatedReviews()->count();
+            $avg = $anyComponent->relatedReviews()->avg('rating');
+
+            if (!$anyComponent) {
+                return response()->json(["message" => "Componente não encontrado"], 404);
+            }
+
+            return response()->json([
+                'data' => $anyComponent,
+                'total' => $total,
+                'avgRating' => round($avg, 1)
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao buscar o componente",
                 'error' => $e->getMessage()
             ], 500);
         }

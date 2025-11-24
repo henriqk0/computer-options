@@ -179,6 +179,18 @@
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
 
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Descrição do Componente *</label>
+                        <textarea id="aboutComponent" name="aboutComponent" maxlength="600" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg 
+                                focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+                                resize-y min-h-[100px] placeholder-gray-400"
+                            placeholder="Descreva o componente (máx. 600 caracteres)..."></textarea>
+
+                        <p id="charCount" class="text-right text-xs text-gray-500 mt-1">
+                            0 / 600
+                        </p>
+                    </div>
+
                     <div class="flex space-x-3 pt-4">
                         <button type="submit"
                             class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium">
@@ -212,7 +224,7 @@
         </div>
     </div>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/componentManager.js', 'resources/js/auth_user_wapi.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/auth_user_wapi.js', 'resources/js/componentManager.js'])
 
     @include('home.footerjs')
 

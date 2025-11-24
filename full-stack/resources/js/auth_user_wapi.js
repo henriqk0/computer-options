@@ -192,6 +192,8 @@ import { showSuccess, showError  } from "./utils/alerts";
     const guestMenuMobile = document.getElementById('guestMenuMobile');
     const authMenu = document.getElementById('authMenu');
     const authMenuMobile = document.getElementById('authMenuMobile');
+    const reviewsLink = document.getElementById('reviewsLink');
+    const reviewsLinkMobile = document.getElementById('reviewsLinkMobile');
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         if(guestMenu) guestMenu.remove();
@@ -200,6 +202,8 @@ import { showSuccess, showError  } from "./utils/alerts";
     else {
         if(authMenu) authMenu.remove();
         if(authMenuMobile) authMenuMobile.remove();
+        if(reviewsLink) reviewsLink.remove();
+        if(reviewsLinkMobile) reviewsLinkMobile.remove();
     }
 
     const user = JSON.parse(localStorage.getItem('auth_user'));
