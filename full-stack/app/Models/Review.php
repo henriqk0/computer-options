@@ -26,4 +26,9 @@ class Review extends Model
     {
         return $this->belongsTo(AnyComponent::class, 'anycomponent_id', 'anycomponent_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class, 'review_id');
+    }
 }
