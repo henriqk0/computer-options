@@ -1,6 +1,11 @@
+/* =====================================================================
+    GLOBAL IMPORTS & INITIAL CONFIGURATIONS
+===================================================================== */
+
 import { formatExtensiveShortDate } from "./utils/formatters";
 import { hideLoading, showLoading } from "./utils/loading";
 import { showError, showSuccess } from "./utils/alerts";
+
 
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

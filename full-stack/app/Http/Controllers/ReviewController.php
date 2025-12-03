@@ -145,7 +145,18 @@ class ReviewController extends Controller
     public function listBestReview($componentId)
     {
         try {
-            $reviews = Review::where('anycomponent_id', $componentId)->with('user:id,name')->take(3)->get();
+            $reviews = Review::where('anycomponent_id', $componentId)
+                ->withCount('likes')
+                ->orderBy('likes_count', 'desc')  // ordena pela contagem de likes
+                ->take(3)
+                ->with([
+                    'likes' => function ($q) {
+                        $q->where('user_id', auth()->id());
+                    },
+                    'user:id,name'
+                ])
+                ->get();
+
             return response()->json($reviews, 200);
 
         } catch (Exception $e) {
@@ -160,7 +171,14 @@ class ReviewController extends Controller
     public function listAllReview($componentId)
     {
         try {
-            $reviews = Review::where('anycomponent_id', $componentId)->with('user:id,name')->get();
+            $reviews = Review::where('anycomponent_id', $componentId)
+                ->with([
+                    'likes' => function ($q) {
+                        $q->where('user_id', auth()->id());  // carrega só o like do usuário
+                    },
+                    'user:id,name'
+                ])
+                ->withCount('likes')->get();
             // before ->get(), if add a comment attr and you want to see the avg review rating:
             //  ->withCount('comment')
             //  ->withAvg('comment', 'rating')
@@ -178,7 +196,16 @@ class ReviewController extends Controller
     public function listMyReview()
     {
         try {
-            $reviews = Review::where('user_id', auth()->id())->with('anycomponent:anycomponent_id,nameComponent')->cursorPaginate(10);
+            $reviews = Review::where('user_id', auth()->id())
+                ->withCount('likes')
+                ->with([
+                    'likes' => function ($q) {
+                        $q->where('user_id', auth()->id());  // carrega só o like do usuário
+                    },
+                    'anycomponent:anycomponent_id,nameComponent'
+                ])
+                ->cursorPaginate(10);
+
             return response()->json($reviews, 200);
 
         } catch (Exception $e) {

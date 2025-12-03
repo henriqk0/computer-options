@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Exceptions\RegisterErrorViewPaths;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnyComponentController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthController;
-
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -24,6 +23,11 @@ Route::get(
 )->name('listAnyComponent');
 
 Route::get(
+    'displayFeatured',
+    [AnyComponentController::class, 'displayFeatured']
+)->name('displayFeatured');
+
+Route::get(
     'searchAnyComponent/{toSearch}',
     [AnyComponentController::class, 'searchAnyComponent']
 )->name('searchAnyComponent');
@@ -39,7 +43,7 @@ Route::middleware(['auth:api', 'role:user'])->put(
 )->name('updateAnyComponent');
 
 // Review section
-Route::post(
+Route::middleware(['auth:api', 'role:user'])->post(
     'createReview',
     [ReviewController::class, 'createReview']
 )->name('createReview');
@@ -73,3 +77,14 @@ Route::middleware(['auth:api', 'role:user'])->delete(
     'deleteReview/{id}',
     [ReviewController::class, 'deleteReview']
 )->name('deleteReview');
+
+// Like Section
+Route::middleware(['auth:api', 'role:user'])->post(
+    'like',
+    [LikeController::class, 'like']
+)->name('like');
+
+Route::middleware(['auth:api', 'role:user'])->delete(
+    'unlike/{id}',
+    [LikeController::class, 'undolike']
+)->name('unlike');
