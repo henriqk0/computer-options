@@ -146,14 +146,16 @@ class ReviewController extends Controller
     {
         try {
             $reviews = Review::where('anycomponent_id', $componentId)
+                ->withCount('likes')
+                ->orderBy('likes_count', 'desc')  // ordena pela contagem de likes
+                ->take(3)
                 ->with([
                     'likes' => function ($q) {
-                        $q->where('user_id', auth()->id());  // carrega só o like do usuário
+                        $q->where('user_id', auth()->id());
                     },
                     'user:id,name'
                 ])
-                ->take(3)
-                ->withCount('likes')->get();
+                ->get();
 
             return response()->json($reviews, 200);
 

@@ -23,6 +23,11 @@ Route::get(
 )->name('listAnyComponent');
 
 Route::get(
+    'displayFeatured',
+    [AnyComponentController::class, 'displayFeatured']
+)->name('displayFeatured');
+
+Route::get(
     'searchAnyComponent/{toSearch}',
     [AnyComponentController::class, 'searchAnyComponent']
 )->name('searchAnyComponent');

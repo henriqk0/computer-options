@@ -33,3 +33,14 @@ export function formatExtensiveShortDate(dateString) {
 
     return formatted;
 }
+
+export function formatNumber(num) {
+    const number = Number(num); // converts to numeric
+
+    if (isNaN(number)) return null; // to protect invalid numbers
+
+    return number.toLocaleString('pt-BR', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+    });
+}

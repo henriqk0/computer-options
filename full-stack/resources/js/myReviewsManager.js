@@ -6,10 +6,6 @@ import { formatExtensiveShortDate } from "./utils/formatters";
 import { hideLoading, showLoading } from "./utils/loading";
 import { showError, showSuccess } from "./utils/alerts";
 
-// TODO: adicionar classe like (1 por usuario por review. Somente reviews poderão ter likes).
-// Comentários das reviews podem ser adicionadas, mas ñ são prioridade (ainda falta listar os componentes melhor relevantes,
-// de acordo com a quantidade, também (9.4 com 100 likes provavelmente aparecerá,
-// mas 10 com apenas 1, nao), na página inicial)
 
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use DB;
 use Illuminate\Http\Request;
 use App\Models\AnyComponent;
+use App\Models\Review;
 
 class AnyComponentController extends Controller
 {
@@ -44,9 +46,46 @@ class AnyComponentController extends Controller
         }
     }
 
-    public function searchFeatured()
+    public function displayFeatured()
     {
-        // display first top 10
+        // display first top 3
+        try {
+            $m = 20;
+            $C = Review::avg('rating');
+
+            // base query with aliases
+            $base = AnyComponent::query()
+                ->withCount('relatedReviews')
+                ->withAvg('relatedReviews', 'rating');
+
+            // extern subquery
+            $comps = DB::query()
+                ->fromSub($base, 'x')
+                ->select('x.*')
+                ->selectRaw("
+                    (
+                        (related_reviews_count / (related_reviews_count + :m1)) * related_reviews_avg_rating
+                        +
+                        (:m2 / (related_reviews_count + :m3)) * :C
+                    ) as weighted_rating
+                ", [
+                    'm1' => $m,
+                    'm2' => $m,
+                    'm3' => $m,
+                    'C' => $C,
+                ])
+                ->orderByDesc('weighted_rating')
+                ->limit(3)
+                ->get();
+
+            return response()->json($comps, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao buscar melhores componentes",
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function createAnyComponent(Request $request)
