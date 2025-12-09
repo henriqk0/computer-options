@@ -127,33 +127,54 @@ import { showSuccess, showError  } from "./utils/alerts";
     // ========================
     axios.interceptors.response.use(
         response => response,
+
         async error => {
             const originalRequest = error.config;
 
-            // error 401 and dont try refresh before
-            if (error.response?.status === 401 && !originalRequest._retry) {
+            // if request was already retried, stop here
+            if (originalRequest._retry) {
+                return Promise.reject(error);
+            }
+
+            // if unauthorized, attempt refresh
+            if (error.response?.status === 401) {
                 originalRequest._retry = true;
+
                 try {
-                    const token = localStorage.getItem('auth_token');
-                    if (!refreshToken) throw new Error('Sem token de acesso.');
+                    const oldToken = localStorage.getItem('auth_token');
+                    if (!oldToken) throw new Error('Missing token');
 
-                    const response = await axios.post('/refresh', null, {
-                        headers: { Authorization: `Bearer ${token}`}
-                    });
+                    // call refresh endpoint with the expired token
+                    const refreshResponse = await axios.post(
+                        '/refresh',
+                        {},
+                        { headers: { Authorization: `Bearer ${oldToken}` } }
+                    );
 
-                    const newToken = response.data.token;
+                    const newToken = refreshResponse.data.token;
+
+                    // save new token
                     localStorage.setItem('auth_token', newToken);
-                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                    originalRequest.headers['Authorization'] = `Bearer ${token}`;
 
-                    return axios(originalRequest);  // repeat original request
-                } catch (e) {
-                    handleLogout(false);     // much time since invalid token
-                    return Promise.reject(e);
+                    // update global axios Authorization header
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+
+                    // update the original request Authorization header
+                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+
+                    // retry the oddriginal request with new token
+                    return axios(originalRequest);
+
+                } catch (refreshError) {
+                    // refresh failed, then logout
+                    handleLogout(false);
+                    return Promise.reject(refreshError);
                 }
             }
+
+            return Promise.reject(error);
         }
-    )
+    );
 
     document.querySelectorAll('.comp-searcher').forEach(input => {
         input.addEventListener('keydown', function(e) {

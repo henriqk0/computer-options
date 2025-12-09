@@ -8,9 +8,9 @@ use App\Http\Controllers\AuthController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
-Route::middleware('auth:api')->get('user', [AuthController::class, 'user']);
-Route::middleware('auth:api')->post('refresh', [AuthController::class, 'refresh']);
+Route::middleware(['jwt.verify', 'jwt.auto'])->post('logout', [AuthController::class, 'logout']);
+Route::middleware(['jwt.verify', 'jwt.auto'])->get('user', [AuthController::class, 'user']);
+Route::middleware('jwt.refreshable')->post('refresh', [AuthController::class, 'refresh']);
 
 Route::middleware(['auth:api', 'role:user'])->post(
     'createAnyComponent',
@@ -37,18 +37,18 @@ Route::get(
     [AnyComponentController::class, 'showAnyComponent']
 )->name('showAnyComponent');
 
-Route::middleware(['auth:api', 'role:user'])->put(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->put(
     'updateAnyComponent',
     [AnyComponentController::class, 'updateAnyComponent']
 )->name('updateAnyComponent');
 
 // Review section
-Route::middleware(['auth:api', 'role:user'])->post(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->post(
     'createReview',
     [ReviewController::class, 'createReview']
 )->name('createReview');
 
-Route::middleware(['auth:api', 'role:user'])->delete(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->delete(
     'deleteAnyComponent/{id}',
     [AnyComponentController::class, 'deleteAnyComponent']
 )->name('deleteAnyComponent');
@@ -63,28 +63,28 @@ Route::get(
     [ReviewController::class, 'listAllReview']
 )->name('listAllReview');
 
-Route::middleware(['auth:api', 'role:user'])->get(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->get(
     'listMyReview',
     [ReviewController::class, 'listMyReview']
 )->name('listMyReview');
 
-Route::middleware(['auth:api', 'role:user'])->put(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->put(
     'updateReview',
     [ReviewController::class, 'updateReview']
 )->name('updateReview');
 
-Route::middleware(['auth:api', 'role:user'])->delete(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->delete(
     'deleteReview/{id}',
     [ReviewController::class, 'deleteReview']
 )->name('deleteReview');
 
 // Like Section
-Route::middleware(['auth:api', 'role:user'])->post(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->post(
     'like',
     [LikeController::class, 'like']
 )->name('like');
 
-Route::middleware(['auth:api', 'role:user'])->delete(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->delete(
     'unlike/{id}',
     [LikeController::class, 'undolike']
 )->name('unlike');

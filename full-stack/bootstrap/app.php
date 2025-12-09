@@ -15,6 +15,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
+            'jwt.auto' => \App\Http\Middleware\JwtAutoRefresh::class,
+            'jwt.verify' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+            'jwt.refreshable' => \App\Http\Middleware\JwtRefreshOnly::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
