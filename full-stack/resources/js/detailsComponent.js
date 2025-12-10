@@ -500,6 +500,7 @@ async function renderReviewFeatures() {
     const ratingDisplay = document.getElementById('ratingDisplay');
     const ratingInput = document.getElementById('reviewRating');
     const btnAddReview = document.getElementById('btnAddReview');
+    const btnCloseReview = document.getElementById('btnCloseReviewModal');
 
     /* --- modal open --- */
     btnAddReview?.addEventListener('click', () => {
@@ -508,11 +509,7 @@ async function renderReviewFeatures() {
     });
 
     /* --- modal close --- */
-    document.getElementById('btnCloseReviewModal')?.addEventListener('click', () => {
-        if (confirm("Descartar avaliação?")) {
-            closeModal();
-        }
-    });
+    if (!withAllFlag) btnCloseReview?.addEventListener('click', handleClose);
 
     /* --- char counter --- */
     const updateCharacterCount = () => {
@@ -562,6 +559,11 @@ async function renderReviewFeatures() {
         form.reset();
         updateCharacterCount();
         updateStarRating(0, ratingInput, ratingDisplay);
+    }
+    function handleClose() {
+        if (confirm("Descartar avaliação?")) {
+            closeModal();
+        }
     }
 }
 
