@@ -50,10 +50,18 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 const search = ref('')
+const router = useRouter()
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 
 function onSearch() {
   if (!search.value) return
-  window.location.href = `/search-components-by-name/${encodeURIComponent(search.value)}`
+  router.push(`/search-components-by-name/${search.value}`)
+  emit('close')
 }
 </script>

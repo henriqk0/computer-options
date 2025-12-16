@@ -2,7 +2,7 @@
   <div class="relative dropdown">
     <button
       @click="toggle"
-      class="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150"
+      class="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 active:bg-gray-100 text-gray-900"
     >
       <span class="mr-1">Componentes</span>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

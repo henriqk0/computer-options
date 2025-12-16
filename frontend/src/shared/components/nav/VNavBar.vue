@@ -100,18 +100,52 @@
         </div>
 
         <div class="pt-4 border-t border-gray-200 text-gray-700">
-          <div v-if="!auth.isAuthenticatedValue">
-            <button @click="openLoginModal" class="w-full text-left px-3 py-3">Login</button>
+          <div v-if="!auth.isAuthenticatedValue" class="space-y-1">
+            <button
+              @click="openLoginModal"
+              class="flex items-center space-x-3 px-3 py-3 w-full rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium cursor-pointer active:bg-blue-100 active:text-blue-800"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                ></path>
+              </svg>
+              <span>Login</span>
+            </button>
             <button
               @click="openRegisterModal"
-              class="w-full text-left px-3 py-3 bg-blue-600 text-white"
+              class="flex items-center space-x-3 px-3 w-full py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 font-medium cursor-pointer"
             >
-              Cadastrar
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                ></path>
+              </svg>
+              <span>Cadastrar</span>
             </button>
           </div>
 
           <div v-else>
-            <button @click="auth.logout" class="w-full text-left px-3 py-3">Logout</button>
+            <button
+              @click="auth.logout"
+              class="flex items-center space-x-3 px-3 py-3 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium cursor-pointer"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                ></path>
+              </svg>
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </div>
@@ -141,8 +175,10 @@ import VSearchModal from '../modals/VSearchModal.vue'
 import VLoginModal from '../modals/VLoginModal.vue'
 import VRegisterModal from '../modals/VRegisterModal.vue'
 import VReviewsBtn from './VReviewsBtn.vue'
+import { useRouter } from 'vue-router'
 
 const auth = useAuth()
+const router = useRouter()
 
 const search = ref('')
 const mobileOpen = ref(false)
@@ -172,6 +208,7 @@ function toggleMobileMenu() {
 }
 
 function onSearch() {
-  if (!search.value.trim()) return
+  if (!search.value) return
+  router.push(`/search-components-by-name/${search.value}`)
 }
 </script>
