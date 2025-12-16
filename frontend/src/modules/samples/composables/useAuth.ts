@@ -61,7 +61,7 @@ export function useAuth() {
   return {
     user,
     token,
-    isAuthenticatedValue: isAuthenticated.value,
+    isAuthenticatedValue: isAuthenticated,
     login,
     register,
     logout,

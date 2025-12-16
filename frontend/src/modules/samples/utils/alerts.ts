@@ -1,7 +1,17 @@
+import { notify } from "@kyvg/vue3-notification"
+
 export function showSuccess(message: string) {
-  console.log('[success]', message) // use a notification lib or similar at future
+  notify({
+    title:'[success]',
+    type: 'success',
+    text: message
+  })
 }
 
 export function showError(message: string) {
-  console.error('[error]', message)
+  notify({
+    title:'[error]',
+    type: 'error',
+    text: message
+  })
 }

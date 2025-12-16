@@ -9,7 +9,7 @@
         <div class="hidden md:flex items-center space-x-4">
           <VComponentsMenu />
 
-          <VReviewsBtn v-if="auth.isAuthenticatedValue" />
+          <VReviewsBtn v-if="isLogged" />
 
           <div class="relative">
             <svg
@@ -67,7 +67,7 @@
     <div v-show="mobileOpen" class="md:hidden border-t border-gray-200">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <button
-          v-if="auth.isAuthenticatedValue"
+          v-if="isLogged"
           class="w-full text-left px-3 py-2 text-gray-700"
           @click="$router.push({ path: 'my-reviews' })"
         >
@@ -100,7 +100,7 @@
         </div>
 
         <div class="pt-4 border-t border-gray-200 text-gray-700">
-          <div v-if="!auth.isAuthenticatedValue" class="space-y-1">
+          <div v-if="!isLogged" class="space-y-1">
             <button
               @click="openLoginModal"
               class="flex items-center space-x-3 px-3 py-3 w-full rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium cursor-pointer active:bg-blue-100 active:text-blue-800"
@@ -166,7 +166,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuth } from '@/modules/samples/composables/useAuth'
 
 import VComponentsMenu from './VComponentsMenu.vue'
@@ -179,6 +179,8 @@ import { useRouter } from 'vue-router'
 
 const auth = useAuth()
 const router = useRouter()
+
+const isLogged = computed(() => auth.isAuthenticatedValue.value)
 
 const search = ref('')
 const mobileOpen = ref(false)

@@ -28,7 +28,7 @@
       v-show="openMenu"
       class="dropdown-menu absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white"
     >
-      <div v-if="!auth.isAuthenticatedValue" class="py-1">
+      <div v-if="!isLogged" class="py-1">
         <button
           @click="(emit('open-login'), (openMenu = false))"
           class="block w-full text-left text-sm text-gray-700 px-4 py-3 hover:bg-gray-100 hover:text-gray-900 transition duration-150 active:bg-gray-100 active:text-gray-900 cursor-pointer"
@@ -85,7 +85,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuth } from '@/modules/samples/composables/useAuth'
 
 const emit = defineEmits<{
@@ -94,6 +94,9 @@ const emit = defineEmits<{
 }>()
 
 const auth = useAuth()
+
+const isLogged = computed(() => auth.isAuthenticatedValue.value)
+
 const openMenu = ref(false)
 
 function toggle() {
