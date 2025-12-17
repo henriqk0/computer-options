@@ -34,7 +34,11 @@
             />
           </div>
 
-          <VAccountMenu @open-login="openLoginModal" @open-register="openRegisterModal" />
+          <VAccountMenu
+            @open-login="openLoginModal"
+            @open-register="openRegisterModal"
+            @handle-logout="handleLogout"
+          />
         </div>
 
         <!-- Mobile buttons -->
@@ -133,7 +137,7 @@
 
           <div v-else>
             <button
-              @click="auth.logout"
+              @click="handleLogout"
               class="flex items-center space-x-3 px-3 py-3 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-700 font-medium cursor-pointer"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,6 +180,7 @@ import VLoginModal from '../modals/VLoginModal.vue'
 import VRegisterModal from '../modals/VRegisterModal.vue'
 import VReviewsBtn from './VReviewsBtn.vue'
 import { useRouter } from 'vue-router'
+import { showError, showSuccess } from '@/modules/samples/utils/alerts'
 
 const auth = useAuth()
 const router = useRouter()
@@ -212,5 +217,15 @@ function toggleMobileMenu() {
 function onSearch() {
   if (!search.value) return
   router.push(`/search-components-by-name/${search.value}`)
+}
+
+async function handleLogout() {
+  try {
+    await auth.logout()
+    showSuccess('Logout realizado com sucesso!')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (err: any) {
+    showError(err?.response?.data?.message || 'Erro ao fazer logout')
+  }
 }
 </script>

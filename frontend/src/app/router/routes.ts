@@ -22,6 +22,7 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'my-reviews',
         component: ListReviews,
+        meta: { requiresAuth: true}
       },
       {
         path: 'show-component/:id',

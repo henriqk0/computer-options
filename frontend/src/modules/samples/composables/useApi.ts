@@ -1,9 +1,11 @@
 import axios, {
+  AxiosHeaders,
   type AxiosInstance,
   type AxiosRequestConfig,
   type AxiosResponse,
 } from 'axios'
-import { useAuth } from '@/modules/samples/composables/useAuth'
+// import { useAuth } from '@/modules/samples/composables/useAuth'
+import { setupAxiosInterceptors } from '@/app/plugins/axiosInterceptor'
 
 
 const baseUrl = import.meta.env.VITE_BASE_API_URL as string
@@ -16,14 +18,16 @@ function createApi(): AxiosInstance {
   })
 
   instance.interceptors.request.use((config) => {
-    const { token } = useAuth()
+    const token = localStorage.getItem('auth_token')
 
-    if (token.value) {
-      config.headers?.set('Authorization', `Bearer ${token.value}`)
+    if (token) {
+      config.headers = new AxiosHeaders(config.headers).set('Authorization', `Bearer ${token}`);
     }
 
     return config
   })
+
+  setupAxiosInterceptors(instance)
 
   return instance
 }

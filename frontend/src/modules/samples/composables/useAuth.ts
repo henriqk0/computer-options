@@ -46,7 +46,6 @@ export function useAuth() {
 
   async function logout() {
     if (!token.value) {
-      console.log(isAuthenticated.value)
       clearSession()
       return
     }

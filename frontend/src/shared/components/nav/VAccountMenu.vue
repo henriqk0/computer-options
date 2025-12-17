@@ -65,7 +65,7 @@
       <div v-else class="py-1">
         <button
           class="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 font-medium cursor-pointer"
-          @click="handleLogout"
+          @click="emit('handle-logout')"
         >
           <div class="flex items-center space-x-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,6 +91,7 @@ import { useAuth } from '@/modules/samples/composables/useAuth'
 const emit = defineEmits<{
   (e: 'open-login'): void
   (e: 'open-register'): void
+  (e: 'handle-logout'): void
 }>()
 
 const auth = useAuth()
@@ -101,10 +102,5 @@ const openMenu = ref(false)
 
 function toggle() {
   openMenu.value = !openMenu.value
-}
-
-function handleLogout() {
-  auth.logout()
-  openMenu.value = false
 }
 </script>
