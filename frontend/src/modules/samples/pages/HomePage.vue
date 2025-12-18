@@ -3,13 +3,12 @@ import { useApi } from '@/modules/samples/composables/useApi'
 import type { FeaturedComponent } from '@/modules/samples/models/FeaturedComponent'
 import VFeaturedComponents from '@/shared/components/cards/VFeaturedComponents.vue'
 import VBlueLoading from '@/shared/components/utils/VBlueLoading.vue'
-import VErrorMessage from '@/shared/components/utils/VErrorMessage.vue'
 import { onMounted, ref } from 'vue'
+import { showError } from '@/modules/samples/utils/alerts'
 
 const { get } = useApi()
 
 const datas = ref<FeaturedComponent[]>([])
-const errorMessage = ref('')
 const loading = ref(true)
 const moreThan0 = ref(false)
 
@@ -27,13 +26,13 @@ onMounted(async () => {
     // catches error msg
     if (error.response) {
       // error returned by API (status 4xx or 5xx)
-      errorMessage.value = error.response.data.message || 'Erro no servidor'
+      showError(error.response.data.message || 'Erro no servidor')
     } else if (error.request) {
       // none server response
-      errorMessage.value = 'Servidor não respondeu'
+      showError('Servidor não respondeu')
     } else {
       // unknow error
-      errorMessage.value = error.message || 'Erro desconhecido'
+      showError(error.message || 'Erro desconhecido')
     }
   } finally {
     loading.value = false
@@ -55,11 +54,7 @@ onMounted(async () => {
       <VBlueLoading />
     </div>
 
-    <div v-if="errorMessage">
-      <VErrorMessage :label="errorMessage.toString()" />
-    </div>
-
-    <div v-if="!loading && !errorMessage">
+    <div v-if="!loading">
       <h1 v-if="moreThan0" class="text-2xl font-bold text-gray-900 mb-4" id="best-comp-label">
         Componentes melhor avaliados
       </h1>

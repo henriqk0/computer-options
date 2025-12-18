@@ -32,6 +32,11 @@ export const routes: RouteRecordRaw[] = [
         path: 'search-components-by-name/:name',
         component: SearchComponent,
       },
+      // not registrated routes will redirect to homepage
+      {
+        path: '/:pathMatch(.*)*',
+        redirect: '/',
+      },
     ],
   },
 ]

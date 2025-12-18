@@ -24,12 +24,8 @@
       <VBlueLoading />
     </div>
 
-    <div v-if="errorMessage">
-      <VErrorMessage :label="errorMessage.toString()" />
-    </div>
-
     <!-- Content -->
-    <template v-else-if="!loading && !errorMessage">
+    <template v-else>
       <!-- Table View (Desktop/Tablet) -->
       <div class="hidden md:block bg-white rounded-lg shadow overflow-hidden">
         <VTableComponents
@@ -83,7 +79,6 @@ import VPaginationComponents from '@/shared/components/tables/VPaginationCompone
 import VComponentDeleteModal from '@/shared/components/modals/VComponentDeleteModal.vue'
 import VComponentFormModal from '@/shared/components/modals/VComponentFormModal.vue'
 import VBlueLoading from '@/shared/components/utils/VBlueLoading.vue'
-import VErrorMessage from '@/shared/components/utils/VErrorMessage.vue'
 import type { SimpleComponent } from '@/modules/samples/models/SimpleComponent'
 import type { SimpleComponentPaginated } from '@/modules/samples/models/SimpleComponentPaginated'
 import type { ApiResponse as ApiResponseWithMsg } from '@/modules/samples/models/ApiResponseWithMsg'
@@ -108,8 +103,6 @@ const showComponentModal = ref(false)
 const showDeleteModal = ref(false)
 const editingComponent = ref<SimpleComponent | null>(null)
 const deletingComponentId = ref<number | null>(null)
-
-const errorMessage = ref('')
 
 async function loadComponents(page = 1, perPage = 8) {
   try {
