@@ -177,13 +177,24 @@ watch(
 )
 
 function resetForm() {
-  formData.value = {
-    nameComponent: '',
-    categoryLevel: '',
-    bestPrice: 0,
-    urlPrice: '',
-    datePrice: '',
-    about: '',
+  if (!isEditing.value) {
+    formData.value = {
+      nameComponent: '',
+      categoryLevel: '',
+      bestPrice: 0,
+      urlPrice: '',
+      datePrice: '',
+      about: '',
+    }
+  } else {
+    formData.value = {
+      nameComponent: props.component!.nameComponent,
+      categoryLevel: props.component!.categoryLevel,
+      bestPrice: props.component!.bestPrice as unknown as number,
+      urlPrice: props.component!.urlPrice,
+      datePrice: props.component!.datePrice,
+      about: props.component!.about || '',
+    }
   }
 }
 

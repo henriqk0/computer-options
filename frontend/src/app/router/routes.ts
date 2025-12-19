@@ -18,11 +18,12 @@ export const routes: RouteRecordRaw[] = [
       {
         path: 'components',
         component: ListComponent,
+        meta: { title: "Componentes cadastrados | TechComponenents"}
       },
       {
         path: 'my-reviews',
         component: ListReviews,
-        meta: { requiresAuth: true}
+        meta: { requiresAuth: true, title: "Minhas Reviews | TechComponenents" }
       },
       {
         path: 'show-component/:id',

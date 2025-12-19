@@ -10,7 +10,7 @@
     </div>
 
     <template v-else>
-      <div id="cardView" class="space-y-4">
+      <div class="space-y-4">
         <VSearchedComponents
           v-for="component in searchedComponents"
           :key="component.anycomponent_id"
@@ -67,7 +67,7 @@ watch(
   () => route.path,
   () => {
     lastPart.value = pickLastPart()!
-
+    document.title = `${lastPart.value} - Resultado de busca | TechComponents`
     fetchSearchedComps(lastPart.value)
   },
   { immediate: true }, // works like onMounted

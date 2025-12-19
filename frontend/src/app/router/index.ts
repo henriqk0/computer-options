@@ -18,4 +18,8 @@ router.beforeEach((to) => {
   }
 })
 
+router.afterEach((to) => {
+  document.title = to.meta.title as string || 'Os melhores componentes tech e ofertas | TechComponenents'
+})
+
 export default router

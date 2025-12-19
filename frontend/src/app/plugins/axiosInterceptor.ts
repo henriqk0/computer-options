@@ -41,20 +41,15 @@ export function setupAxiosInterceptors(axiosInstance: AxiosInstance = axios) {
             axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
 
             isRefreshing = false;
-            onRefreshed(newToken); // notifica todas as requisições pendentes
+            onRefreshed(newToken);
           } catch (err) {
             isRefreshing = false;
             return Promise.reject(err);
           }
         }
 
-        // Espera o refresh terminar e aplica token atualizado
         return new Promise((resolve) => {
-          addRefreshSubscriber((token: string) => {
-            original.headers = {
-              ...original.headers,
-              Authorization: `Bearer ${token}`
-            };
+          addRefreshSubscriber(() => {
             resolve(axiosInstance(original));
           });
         });

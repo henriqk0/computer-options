@@ -4,7 +4,6 @@ import axios, {
   type AxiosRequestConfig,
   type AxiosResponse,
 } from 'axios'
-// import { useAuth } from '@/modules/samples/composables/useAuth'
 import { setupAxiosInterceptors } from '@/app/plugins/axiosInterceptor'
 
 
