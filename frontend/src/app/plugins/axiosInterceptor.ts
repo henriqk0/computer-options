@@ -1,58 +1,55 @@
-import axios, { type AxiosInstance } from "axios";
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
 
-let isRefreshing = false;
-let refreshSubscribers: ((token: string) => void)[] = [];
+const baseUrl = import.meta.env.VITE_BASE_API_URL as string
 
-function onRefreshed(token: string) {
-  refreshSubscribers.forEach(cb => cb(token));
-  refreshSubscribers = [];
-}
+const refreshApi = axios.create({
+  baseURL: baseUrl,
+})
 
-function addRefreshSubscriber(cb: (token: string) => void) {
-  refreshSubscribers.push(cb);
+let refreshPromise: Promise<string> | null = null
+
+function refreshToken(): Promise<string> {
+  if (!refreshPromise) {
+    const oldToken = localStorage.getItem("auth_token")
+
+    if (!oldToken) {
+      return Promise.reject(new Error("No token to refresh"))
+    }
+
+    refreshPromise = refreshApi.post("/refresh", {}, {
+      headers: {
+        Authorization: `Bearer ${oldToken}`
+      }
+    }).then(res => {
+      const newToken = res.data.token
+      localStorage.setItem("auth_token", newToken)
+      return newToken
+    }).finally(() => {
+      refreshPromise = null
+    })
+  }
+
+  return refreshPromise
 }
 
 export function setupAxiosInterceptors(axiosInstance: AxiosInstance = axios) {
   axiosInstance.interceptors.response.use(
-    response => response,
+    res => res,
     async (error) => {
-      const original = error.config;
+      const original = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-      if (error.response?.status === 401 && !original._retry) {
+      if (error.response?.status === 401 && !original._retry &&  !original.url?.includes("/refresh")) {
         original._retry = true;
 
-        if (!isRefreshing) {
-          isRefreshing = true;
+        const newToken = await refreshToken()
 
-          const oldToken = localStorage.getItem("auth_token");
-          if (!oldToken) {
-            isRefreshing = false;
-            return Promise.reject(error);
-          }
-
-          try {
-            const refresh = await axiosInstance.post("/refresh", {}, {
-              headers: { Authorization: `Bearer ${oldToken}` }
-            });
-
-            const newToken = refresh.data.token;
-            localStorage.setItem("auth_token", newToken);
-            axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-
-            isRefreshing = false;
-            onRefreshed(newToken);
-          } catch (err) {
-            isRefreshing = false;
-            return Promise.reject(err);
-          }
+        original.headers = {
+          ...original.headers,
+          Authorization: `Bearer ${newToken}`
         }
 
-        return new Promise((resolve) => {
-          addRefreshSubscriber(() => {
-            resolve(axiosInstance(original));
-          });
-        });
+        return axiosInstance(original)
       }
 
       return Promise.reject(error);

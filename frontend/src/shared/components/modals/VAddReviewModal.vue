@@ -154,7 +154,6 @@ function handleSubmit() {
   const content = formData.value.content.trim()
   const rating = formData.value.rating
 
-  // Validations
   if (!title) {
     alert('Por favor, adicione um título.')
     return

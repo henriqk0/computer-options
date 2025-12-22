@@ -222,6 +222,7 @@ function onSearch() {
 async function handleLogout() {
   try {
     await auth.logout()
+    router.push('/')
     showSuccess('Logout realizado com sucesso!')
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {

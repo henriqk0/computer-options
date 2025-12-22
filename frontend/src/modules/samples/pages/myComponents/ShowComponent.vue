@@ -60,6 +60,7 @@ import VReviewsSection from '@/shared/components/sections/VReviewsSection.vue'
 import VAddReviewModal from '@/shared/components/modals/VAddReviewModal.vue'
 import type { SimpleComponentDetail as ComponentDetail } from '@/modules/samples/models/SimpleComponentDetail'
 import type { Review } from '@/modules/samples/models/Review'
+import type { Like } from '@/modules/samples/models/Like'
 import type { ApiResponse as ApiResponseWithMsg } from '@/modules/samples/models/ApiResponseWithMsg'
 
 const route = useRoute()
@@ -79,7 +80,7 @@ const showAllReviews = ref(false)
 const loading = ref(true)
 const showAddReviewModal = ref(false)
 
-// Computed
+// computed
 const componentId = computed(() => route.params.id as string)
 
 const userHasReviewed = computed(() => {
@@ -87,12 +88,12 @@ const userHasReviewed = computed(() => {
   return reviews.value.some((r) => r.user.id === userId.value)
 })
 
-// Methods
+// methods
 async function fetchComponentDetails(includeAllReviews = false) {
   loading.value = true
 
   try {
-    // Fetch component details
+    // fetch component details
     const detailRes = await get<{
       data: ComponentDetail
       avgRating: number
@@ -103,7 +104,7 @@ async function fetchComponentDetails(includeAllReviews = false) {
     averageScore.value = detailRes.data.avgRating
     totalReviews.value = detailRes.data.total
 
-    // Fetch reviews
+    // fetch reviews
     const reviewsEndpoint = includeAllReviews
       ? `/listAllReview/${component.value.anycomponent_id}`
       : `/listBestReview/${component.value.anycomponent_id}`
@@ -149,23 +150,23 @@ async function handleToggleLike(reviewId: number, likeId: number | null) {
 
   try {
     if (likeId) {
-      // Unlike
+      // unlike
       await del(`/unlike/${likeId}`)
 
-      // Update local state
+      // update local state
       const review = reviews.value.find((r) => r.id === reviewId)
       if (review) {
         review.likes_count--
-        review.likes = review.likes.filter((l: any) => l.id !== likeId)
+        review.likes = review.likes.filter((l: Like) => l.id !== likeId)
       }
     } else {
-      // Like
+      // like
       const response = await post<{ id: number }>('/like', {
         user_id: userId.value,
         review_id: reviewId,
       })
 
-      // Update local state
+      // update local state
       const review = reviews.value.find((r) => r.id === reviewId)
       if (review) {
         review.likes_count++
@@ -173,6 +174,8 @@ async function handleToggleLike(reviewId: number, likeId: number | null) {
           id: response.data.id,
           user_id: userId.value,
           review_id: reviewId,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         })
       }
     }
