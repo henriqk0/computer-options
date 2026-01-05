@@ -18,7 +18,7 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
 <template>
   <RouterLink :to="`/show-component/${id}`">
     <div
-      class="bg-white rounded-lg shadow p-5 hover:bg-gray-50 transition-colors duration-300 cursor-pointer active:bg-gray-100"
+      class="bg-white rounded-lg border border-gray-200 p-5 hover:bg-gray-50 transition-colors duration-300 cursor-pointer active:bg-gray-100 dark:bg-neutral-800 dark:border-neutral-700"
       :data-comp-id="id"
       bis_skin_checked="1"
     >
@@ -39,7 +39,7 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
             </span>
           </div>
           <div bis_skin_checked="1">
-            <h3 class="text-base font-semibold text-gray-900">{{ nameComp }}</h3>
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">{{ nameComp }}</h3>
           </div>
         </div>
 
@@ -56,7 +56,9 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
               {{ formatNumber(scoreComp as unknown as number) }} / 10
             </span>
           </div>
-          <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full">
+          <span
+            class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full dark:text-white"
+          >
             {{ reviewsCount }} usuários
           </span>
         </div>
@@ -65,7 +67,7 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
       <div class="space-y-2 mb-4" bis_skin_checked="1">
         <div class="flex items-center text-sm" bis_skin_checked="1">
           <svg
-            class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0"
+            class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 dark:text-neutral-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -92,7 +94,7 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
 
         <div class="flex items-center text-sm" bis_skin_checked="1">
           <svg
-            class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0"
+            class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0 dark:text-neutral-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -104,7 +106,9 @@ const { formatPrice, formatDate, formatNumber } = useFormatter()
               d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
             ></path>
           </svg>
-          <span class="text-gray-700">Data do preço: {{ formatDate(datePrice) }}</span>
+          <span class="text-gray-700 dark:text-neutral-400"
+            >Data do preço: {{ formatDate(datePrice) }}</span
+          >
         </div>
       </div>
     </div>

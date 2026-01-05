@@ -1,6 +1,8 @@
 <template>
   <div>
-    <RouterLink to="/my-reviews" class="flex items-center px-3 py-2 rounded-md text-gray-700"
+    <RouterLink
+      to="/my-reviews"
+      class="flex items-center px-3 py-2 rounded-md text-gray-700 dark:text-white"
       >Minhas Reviews</RouterLink
     >
   </div>

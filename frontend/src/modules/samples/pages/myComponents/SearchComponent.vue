@@ -1,8 +1,10 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-3 flex space-x-3">
-      <h1 v-if="titleSearch" class="text-1xl font-bold text-gray-900">{{ titleSearch }}</h1>
-      <p v-if="searchedLabel" class="text-gray-600">{{ searchedLabel }}</p>
+      <h1 v-if="titleSearch" class="text-1xl font-bold text-gray-900 dark:text-neutral-100">
+        {{ titleSearch }}
+      </h1>
+      <p v-if="searchedLabel" class="text-gray-600 dark:text-neutral-400">{{ searchedLabel }}</p>
     </div>
 
     <div v-if="loading">

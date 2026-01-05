@@ -1,8 +1,8 @@
 <template>
   <div
-    class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 bg-white px-4 py-3 rounded-lg shadow"
+    class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 rounded-lg border border-gray-200 dark:bg-neutral-800 dark:border-neutral-700"
   >
-    <div class="text-sm text-gray-700 order-2 sm:order-1">
+    <div class="text-sm text-gray-700 order-2 sm:order-1 dark:text-neutral-300">
       Mostrando
       <span class="font-medium">{{ start }}-{{ end }} de {{ pagination.total }}</span> componentes
     </div>
@@ -11,7 +11,7 @@
       <button
         @click="$emit('changePage', 1)"
         :disabled="pagination.current_page === 1"
-        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -26,7 +26,7 @@
       <button
         @click="$emit('changePage', pagination.current_page - 1)"
         :disabled="!pagination.prev_page_url"
-        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -48,7 +48,7 @@
           :class="
             page === pagination.current_page
               ? 'bg-blue-600 text-white font-semibold'
-              : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+              : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700'
           "
         >
           {{ page }}
@@ -56,14 +56,14 @@
       </div>
 
       <!-- Mobile page indicator -->
-      <span class="sm:hidden text-sm font-medium text-gray-700">
+      <span class="sm:hidden text-sm font-medium text-gray-700 dark:text-neutral-300">
         Página {{ pagination.current_page }} de {{ pagination.last_page }}
       </span>
 
       <button
         @click="$emit('changePage', pagination.current_page + 1)"
         :disabled="!pagination.next_page_url"
-        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -73,7 +73,7 @@
       <button
         @click="$emit('changePage', pagination.last_page)"
         :disabled="pagination.current_page === pagination.last_page"
-        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        class="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-700"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

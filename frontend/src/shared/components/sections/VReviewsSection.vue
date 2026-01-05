@@ -1,7 +1,11 @@
 <template>
-  <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+  <div
+    class="rounded-lg border border-gray-200 p-6 md:p-8 dark:border-neutral-700 dark:bg-neutral-800"
+  >
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-2xl font-bold text-gray-900 min-w-[150px]">Avaliações</h2>
+      <h2 class="text-2xl font-bold text-gray-900 min-w-[150px] dark:text-neutral-100">
+        Avaliações
+      </h2>
 
       <div class="grid gap-4 grid-cols-1 md:[&:has(*:nth-child(2))]:grid-cols-2">
         <button
@@ -38,7 +42,10 @@
       </div>
     </div>
 
-    <div v-if="reviews.length === 0" class="space-y-6 flex flex-col items-center text-gray-400">
+    <div
+      v-if="reviews.length === 0"
+      class="space-y-6 flex flex-col items-center text-gray-400 dark:text-neutral-400"
+    >
       Ainda não foram escritas avaliações deste componente.
     </div>
 

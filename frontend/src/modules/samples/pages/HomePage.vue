@@ -42,8 +42,8 @@ onMounted(async () => {
 
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">Bem Vindo!</h1>
-    <p class="text-gray-600">
+    <h1 class="text-3xl font-bold text-gray-900 mb-4 dark:text-neutral-100">Bem Vindo!</h1>
+    <p class="text-gray-600 dark:text-neutral-400">
       Não erre na escolha! Pesquise aqui a respeito do Componente (Periférico ou Hardware) em que
       tenha interesse para conhecê-lo melhor e ser capaz de tomar a melhor decisão.
     </p>
@@ -55,7 +55,11 @@ onMounted(async () => {
     </div>
 
     <div v-if="!loading">
-      <h1 v-if="moreThan0" class="text-2xl font-bold text-gray-900 mb-4" id="best-comp-label">
+      <h1
+        v-if="moreThan0"
+        class="text-2xl font-bold text-gray-900 mb-4 dark:text-neutral-100"
+        id="best-comp-label"
+      >
         Componentes melhor avaliados
       </h1>
 

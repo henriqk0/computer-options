@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import VNavBar from '../components/nav/VNavBar.vue';
+import VNavBar from '../components/nav/VNavBar.vue'
 </script>
 
 <template>
