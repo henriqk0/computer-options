@@ -1,51 +1,54 @@
 <template>
   <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-gray-50">
+    <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+      <thead class="bg-gray-50 dark:bg-neutral-700/10">
         <tr>
           <th
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-neutral-400"
           >
             Nome
           </th>
           <th
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-neutral-400"
           >
             Categoria
           </th>
           <th
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell dark:text-neutral-400"
           >
             URL Melhor Preço
           </th>
           <th
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell dark:text-neutral-400"
           >
             Data Melhor Preço
           </th>
           <th
-            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-neutral-400"
           >
             Melhor Preço
           </th>
           <th
             v-if="isAuthenticated"
-            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+            class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider dark:text-neutral-400"
           >
             Ações
           </th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody class="divide-y divide-gray-200 dark:divide-neutral-700">
         <tr v-if="components.length === 0">
-          <td :colspan="isAuthenticated ? 6 : 5" class="px-6 py-12 text-center text-gray-500">
+          <td
+            :colspan="isAuthenticated ? 6 : 5"
+            class="px-6 py-12 text-center text-gray-500 dark:text-neutral-400"
+          >
             Nenhum componente cadastrado
           </td>
         </tr>
         <tr
           v-for="(component, index) in components"
           :key="component.anycomponent_id"
-          class="hover:bg-gray-50 transition"
+          class="hover:bg-gray-50 transition dark:hover:bg-neutral-700/10"
         >
           <td class="px-6 py-4 whitespace-nowrap">
             <div class="flex items-center">
@@ -58,19 +61,23 @@
                 }}</span>
               </div>
               <div class="ml-4">
-                <div class="text-sm font-medium text-gray-900">{{ component.nameComponent }}</div>
+                <div class="text-sm font-medium text-gray-900 dark:text-neutral-100">
+                  {{ component.nameComponent }}
+                </div>
               </div>
             </div>
           </td>
           <td class="px-6 py-4">
-            <div class="text-sm text-gray-900">{{ component.categoryLevel }}</div>
+            <div class="text-sm text-gray-900 dark:text-neutral-100">
+              {{ component.categoryLevel }}
+            </div>
           </td>
           <td class="px-6 py-4 hidden lg:table-cell">
             <a
               v-if="component.urlPrice"
               :href="component.urlPrice"
               target="_blank"
-              class="text-sm text-blue-600 hover:text-blue-800 truncate block max-w-xs"
+              class="text-sm text-blue-600 hover:text-blue-800 truncate block max-w-xs dark:text-blue-400 dark:hover:text-blue-300"
               :title="component.urlPrice"
             >
               Ver link
@@ -78,7 +85,9 @@
             <span v-else class="text-sm text-gray-400">-</span>
           </td>
           <td class="px-6 py-4 whitespace-nowrap hidden lg:table-cell">
-            <div class="text-sm text-gray-900">{{ formatDate(component.datePrice) }}</div>
+            <div class="text-sm text-gray-900 dark:text-neutral-100">
+              {{ formatDate(component.datePrice) }}
+            </div>
           </td>
           <td class="px-6 py-4 whitespace-nowrap">
             <span

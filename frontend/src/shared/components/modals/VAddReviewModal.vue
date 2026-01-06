@@ -1,12 +1,15 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div v-if="show" class="fixed inset-0 bg-white z-50">
+      <div v-if="show" class="fixed inset-0 bg-white z-50 dark:bg-neutral-800">
         <div class="h-full flex flex-col">
           <!-- Header -->
-          <div class="border-b border-gray-200">
+          <div class="border-b border-gray-200 dark:border-neutral-700">
             <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-              <button @click="handleClose" class="text-gray-600 hover:text-gray-900 transition">
+              <button
+                @click="handleClose"
+                class="text-gray-600 hover:text-gray-900 transition dark:text-neutral-300 dark:hover:text-neutral-100"
+              >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     stroke-linecap="round"
@@ -17,7 +20,9 @@
                 </svg>
               </button>
               <div class="flex items-center space-x-4">
-                <span class="text-sm text-gray-500">{{ characterCount }} caracteres</span>
+                <span class="text-sm text-gray-500 dark:text-neutral-400/85"
+                  >{{ characterCount }} caracteres</span
+                >
                 <button
                   type="submit"
                   form="reviewForm"
@@ -41,15 +46,19 @@
                     type="text"
                     required
                     maxlength="150"
-                    class="w-full text-4xl md:text-5xl font-bold text-gray-900 placeholder-gray-300 border-none focus:outline-none focus:ring-0 p-0"
+                    class="w-full text-4xl md:text-5xl font-bold text-gray-900 placeholder-gray-300 border-none focus:outline-none focus:ring-0 p-0 dark:text-neutral-100 dark:placeholder-neutral-600/50"
                     placeholder="Título da sua avaliação"
                     autocomplete="off"
                   />
                 </div>
 
                 <!-- Rating Section -->
-                <div class="flex items-center space-x-4 py-6 border-t border-b border-gray-200">
-                  <span class="text-lg text-gray-700 font-medium">Sua nota:</span>
+                <div
+                  class="flex items-center space-x-4 py-6 border-t border-b border-gray-200 dark:border-neutral-700"
+                >
+                  <span class="text-lg text-gray-700 font-medium dark:text-neutral-300"
+                    >Sua nota:</span
+                  >
                   <div class="flex items-center space-x-3">
                     <VStarRating v-model="formData.rating" :hoverable="true" />
                     <span class="text-2xl font-bold" :class="ratingColorClass">
@@ -64,7 +73,7 @@
                     v-model="formData.content"
                     required
                     rows="15"
-                    class="w-full text-xl text-gray-800 placeholder-gray-400 border-none focus:outline-none focus:ring-0 p-0 resize-none leading-relaxed"
+                    class="w-full text-xl text-gray-800 placeholder-gray-400 border-none focus:outline-none focus:ring-0 p-0 resize-none leading-relaxed dark:text-neutral-200 dark:placeholder-neutral-500/55"
                     placeholder="Conte sua experiência e conhecimento sobre o componente..."
                   ></textarea>
                 </div>
@@ -116,7 +125,7 @@ const characterCount = computed(() => {
 })
 
 const ratingColorClass = computed(() => {
-  if (formData.value.rating === 0) return 'text-gray-400'
+  if (formData.value.rating === 0) return 'text-gray-400 dark:text-neutral-500/83'
   if (formData.value.rating <= 3) return 'text-red-500'
   if (formData.value.rating <= 6) return 'text-yellow-500'
   return 'text-green-500'

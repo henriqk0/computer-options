@@ -1,8 +1,12 @@
 <template>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <div class="mb-6">
-      <h1 class="text-3xl font-bold text-gray-900">Componentes cadastrados</h1>
-      <p class="text-gray-600 mt-2">Gerencie os diferentes componentes disponíveis</p>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-neutral-100">
+        Componentes cadastrados
+      </h1>
+      <p class="text-gray-600 mt-2 dark:text-neutral-400">
+        Gerencie os diferentes componentes disponíveis
+      </p>
       <button
         v-if="isLogged"
         @click="openAddModal"
@@ -27,7 +31,9 @@
     <!-- Content -->
     <template v-else>
       <!-- Table View (Desktop/Tablet) -->
-      <div class="hidden md:block bg-white rounded-lg shadow overflow-hidden">
+      <div
+        class="hidden md:block rounded-lg border border-gray-200 overflow-hidden dark:bg-neutral-800 dark:border-neutral-700"
+      >
         <VTableComponents
           :components="components"
           :is-authenticated="isLogged"

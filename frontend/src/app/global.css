@@ -1,6 +1,19 @@
+@config "./tailwind.config.ts";
 @import "tailwindcss";
 
-body {
-  background-color: #fff;
-  color: oklch(21% 0.034 264.665);
+@layer base {
+  :root {
+    --bg-default: 253 253 253;
+  }
+
+  html.dark {
+    --bg-default: 26 26 26;
+  }
+
+  body {
+    @apply bg-[rgb(var(--bg-default))];
+  }
 }
+
+
+/* alterar estilos por aqui globalmente (criar classes - texto primario, texto secundario, p.g para trocar as cores) */

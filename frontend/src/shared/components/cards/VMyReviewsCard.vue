@@ -1,13 +1,15 @@
 <template>
   <div
-    class="bg-white rounded-lg shadow p-5 grid grid-cols-4 gap-2 cursor-pointer"
+    class="border-b border-gray-200 p-5 px-0 grid grid-cols-4 gap-2 cursor-pointer dark:border-neutral-700"
     :data-review-id="review.id"
     @click="$emit('click')"
   >
     <div class="col-span-3">
-      <h1 class="text-[20px] font-bold">{{ review.title }}</h1>
-      <h3 class="text-gray-600 py-1">{{ truncatedContent }}</h3>
-      <span class="text-gray-500 py-1">{{ formatExtensiveShortDate(review.updated_at) }}</span>
+      <h1 class="text-[20px] font-bold dark:text-neutral-100">{{ review.title }}</h1>
+      <h3 class="text-gray-600 dark:text-neutral-300 py-1">{{ truncatedContent }}</h3>
+      <span class="text-gray-500 dark:text-neutral-400 py-1">{{
+        formatExtensiveShortDate(review.updated_at)
+      }}</span>
     </div>
 
     <div

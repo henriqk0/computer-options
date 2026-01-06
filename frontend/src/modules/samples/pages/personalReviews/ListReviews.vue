@@ -1,9 +1,9 @@
 <template>
   <div class="max-w-[728px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="mb-6">
-      <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ titleHeader }}</h2>
+    <div class="mb-6 border-b border-gray-200 dark:border-neutral-700">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4 dark:text-neutral-100">{{ titleHeader }}</h2>
 
-      <p class="text-gray-500">{{ titleParagraph }}</p>
+      <p class="text-gray-500 dark:text-neutral-400 mb-5">{{ titleParagraph }}</p>
     </div>
     <div v-if="loading && reviews.length === 0">
       <VBlueLoading />

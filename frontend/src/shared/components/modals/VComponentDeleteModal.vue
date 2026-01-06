@@ -3,12 +3,14 @@
     <Transition name="modal">
       <div
         v-if="show"
-        class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4"
+        class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 dark:bg-neutral-700/78"
         @click.self="closeModal"
       >
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Confirmar Exclusão</h3>
-          <p class="text-gray-600 mb-6">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 dark:bg-neutral-900">
+          <h3 class="text-xl font-bold text-gray-900 mb-4 dark:text-neutral-100">
+            Confirmar Exclusão
+          </h3>
+          <p class="text-gray-600 mb-6 dark:text-neutral-300/77">
             Tem certeza que deseja excluir este componente? Esta ação não pode ser desfeita.
           </p>
           <div class="flex space-x-3">
@@ -20,7 +22,7 @@
             </button>
             <button
               @click="closeModal"
-              class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-medium"
+              class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-medium dark:text-neutral-300 dark:bg-neutral-800 dark:hover:bg-neutral-700"
             >
               Cancelar
             </button>
