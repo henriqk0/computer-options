@@ -1,11 +1,14 @@
 <template>
-  <div class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+  <div
+    class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 dark:bg-neutral-700/78"
+    @click.self="$emit('close')"
+  >
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6 dark:bg-neutral-900">
       <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-bold">Cadastro</h2>
+        <h2 class="text-2xl font-bold dark:text-neutral-100">Cadastro</h2>
         <button
           @click="$emit('close')"
-          class="text-gray-400 hover:text-gray-600 active:text-gray-700"
+          class="text-gray-400 hover:text-gray-600 active:text-gray-700 dark:text-neutral-300 dark:hover:text-neutral-100"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -20,68 +23,91 @@
 
       <form @submit.prevent="submit" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Nome *</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-neutral-300/92"
+            >Nome *</label
+          >
           <input
             v-model="name"
             type="text"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:placeholder-neutral-500 dark:border-neutral-700"
             placeholder="Seu nome completo"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-neutral-300/92"
+            >Email *</label
+          >
           <input
             v-model="email"
             type="email"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:placeholder-neutral-500 dark:border-neutral-700"
             placeholder="seu@email.com"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Senha *</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-neutral-300/92"
+            >Senha *</label
+          >
           <input
             v-model="password"
             type="password"
             minlength="8"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:placeholder-neutral-500 dark:border-neutral-700"
             placeholder="••••••••"
           />
-          <p class="mt-1 text-xs text-gray-500">Mínimo de 8 caracteres</p>
+          <p class="mt-1 text-xs text-gray-500 dark:text-neutral-400/78">Mínimo de 8 caracteres</p>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Confirmar Senha *</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1 dark:text-neutral-300/92"
+            >Confirmar Senha *</label
+          >
           <input
             v-model="passwordConfirmation"
             type="password"
             minlength="8"
             required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:placeholder-neutral-500 dark:border-neutral-700"
             placeholder="••••••••"
           />
         </div>
 
         <div class="flex items-start">
-          <input
-            type="checkbox"
-            v-model="accepted"
-            required
-            class="mr-2 mt-1 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-          />
-          <label class="text-sm text-gray-600">
-            Eu concordo com os
-            <RouterLink to="/" class="text-blue-600 hover:text-blue-700 active:text-blue-800"
-              >termos de uso</RouterLink
+          <label class="inline-flex items-center cursor-pointer select-none">
+            <input type="checkbox" v-model="accepted" class="sr-only" />
+
+            <span
+              :class="[
+                'h-4 w-4 rounded border flex items-center justify-center transition-colors duration-150',
+                {
+                  'bg-white border-gray-300 dark:border-neutral-700 dark:bg-neutral-900': !accepted,
+                  'bg-blue-600 border-blue-600 dark:bg-blue-600 dark:border-blue-600': accepted,
+                },
+              ]"
             >
-            e
-            <RouterLink to="/" class="text-blue-600 hover:text-blue-700 active:text-blue-800">
-              política de privacidade
-            </RouterLink>
+              <span
+                class="text-white text-xs font-black transition-opacity duration-150"
+                :style="{ opacity: accepted ? 1 : 0 }"
+              >
+                ✓
+              </span>
+            </span>
+
+            <span class="text-sm text-gray-600 ml-2 dark:text-neutral-400">
+              Eu concordo com os
+              <RouterLink to="/" class="text-blue-600 hover:text-blue-700 active:text-blue-800"
+                >termos de uso</RouterLink
+              >
+              e
+              <RouterLink to="/" class="text-blue-600 hover:text-blue-700 active:text-blue-800">
+                política de privacidade
+              </RouterLink>
+            </span>
           </label>
         </div>
 
@@ -92,7 +118,7 @@
           Criar Conta
         </button>
 
-        <p class="text-center text-sm text-gray-600">
+        <p class="text-center text-sm text-gray-600 dark:text-neutral-400">
           Já tem uma conta?
           <button
             type="button"
@@ -119,11 +145,11 @@ const emit = defineEmits<{
 
 const auth = useAuth()
 
+const accepted = ref(false)
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
-const accepted = ref(false)
 
 async function submit() {
   if (password.value !== passwordConfirmation.value) {

@@ -3,7 +3,11 @@
     <button v-for="star in 10" :key="star" type="button" @click="setRating(star)" class="star-btn">
       <svg
         class="w-5 h-5 md:h-8 md:w-8 transition cursor-pointer"
-        :class="star <= modelValue ? 'text-yellow-400' : 'text-gray-300 hover:text-yellow-400'"
+        :class="
+          star <= modelValue
+            ? 'text-yellow-400'
+            : 'text-gray-300 dark:text-neutral-500/40 hover:text-yellow-400 dark:hover:text-yellow-400'
+        "
         fill="currentColor"
         viewBox="0 0 20 20"
       >
