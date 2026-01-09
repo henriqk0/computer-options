@@ -10,6 +10,9 @@ export function getCategoryLabel(level: string, name: string): string {
     'FONE',
     'FONE DE OUVIDO',
     'CAIXA DE SOM',
+    'MONITOR DE AUDIO',
+    'DAC',
+    'AMPLIFICADOR',
     'MICROFONE',
     'MOUSEPAD',
   ]

@@ -8,9 +8,23 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-  const { isAuthenticatedValue } = useAuth();
+  const { isAuthenticatedValue, requiresEditor, requiresAdmin } = useAuth();
 
   if (to.meta.requiresAuth && !isAuthenticatedValue.value) {
+    return {
+      path: '/',
+      state: { redirect: to.fullPath}
+    }
+  }
+
+  if (to.meta.requiresEditor && !requiresEditor.value) {
+    return {
+      path: '/',
+      state: { redirect: to.fullPath}
+    }
+  }
+
+  if (to.meta.requiresAdmin && !requiresAdmin.value) {
     return {
       path: '/',
       state: { redirect: to.fullPath}

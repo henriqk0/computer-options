@@ -1,9 +1,9 @@
-import type { User } from "../User";
+import type { UserWithRole } from "../UserWithRole";
 
 
 export interface AuthResponse {
   token: string;
-  user: User;
+  user: UserWithRole;
   message?: string;
 }
 

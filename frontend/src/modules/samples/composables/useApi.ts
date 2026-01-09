@@ -56,9 +56,17 @@ export function useApi() {
     return api!.put<T>(url, data, config)
   }
 
+  function patch<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>> {
+    return api!.patch<T>(url, data, config)
+  }
+
   function del<T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return api!.delete<T>(url, config)
   }
 
-  return { get, post, put, del }
+  return { get, post, put, patch, del }
 }

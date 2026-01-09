@@ -16,7 +16,13 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        if (!$user || (string) $user->role->value !== $role) {
+        $hierarchyMapper = [
+            'user' => 1,
+            'editor' => 2,
+            'admin' => 3,
+        ];
+
+        if ($hierarchyMapper[$user->role->value] < $hierarchyMapper[$role]) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
