@@ -12,11 +12,11 @@ Route::middleware(['jwt.verify', 'jwt.auto'])->post('logout', [AuthController::c
 Route::middleware(['jwt.verify', 'jwt.auto'])->get('user', [AuthController::class, 'user']);
 Route::middleware('jwt.refreshable')->post('refresh', [AuthController::class, 'refresh']);
 
-Route::middleware(['auth:api', 'role:admin'])->get(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->get(
     'listUsers',
     [AuthController::class, 'listUsers']
 )->name('listUsers');
-Route::middleware(['auth:api', 'role:admin'])->delete(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->delete(
     'deleteUser/{id}',
     [AuthController::class, 'deleteUser']
 )->name('deleteUser');
@@ -25,7 +25,7 @@ Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->patch(
     [AuthController::class, 'patchRole']
 )->name('patchRole');
 
-Route::middleware(['auth:api', 'role:editor'])->post(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->post(
     'createAnyComponent',
     [AnyComponentController::class, 'createAnyComponent']
 )->name('createAnyComponent');

@@ -94,7 +94,7 @@ async function loadUsers(page = 1, perPage = 8) {
     console.log(users)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    showError('Erro ao carregar componentes: ' + (error.response?.data?.message || error.message))
+    showError('Erro ao carregar usuários: ' + (error.response?.data?.message || error.message))
   } finally {
     loading.value = false
   }
