@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -73,5 +74,70 @@ class AuthController extends Controller
     public function user()
     {
         return response()->json(Auth::user());
+    }
+
+    public function listUsers(Request $request)
+    {
+        try {
+            $perPage = $request->get('per_page', 8);
+            $perPage = min($perPage, 80); # limit
+            $comps = User::paginate($perPage);
+
+            return response()->json($comps, 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao listar os usuários ",
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function patchRole(Request $request, $id)
+    {
+        try {
+            $user = User::find($id);
+            $validated = $request->validate(['role' => 'required|string|in:admin,editor,user']);
+
+            $user->update([
+                'role' => $validated['role']
+            ]);
+
+            return response()->json([
+                "message" => "Papel do usuário foi alterado com sucesso",
+                "data" => $user
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao alterar o papel do usuário",
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        try {
+            $user = User::find($id);
+
+            if (!$user) {
+                return response()->json(["message" => "Usuário não encontrado"], 404);
+            }
+
+            $user->delete();
+
+            return response()->json([
+                'message' => "Usuário deletado com sucesso.",
+                'data' => $user
+            ], 200);
+
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Erro ao deletar o usuário",
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }

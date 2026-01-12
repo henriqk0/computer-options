@@ -8,7 +8,7 @@
         Gerencie os diferentes componentes disponíveis
       </p>
       <button
-        v-if="isLogged"
+        v-if="isAuthorized"
         @click="openAddModal"
         class="flex items-center mt-4 space-x-2 px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition duration-150"
       >
@@ -36,7 +36,7 @@
       >
         <VTableComponents
           :components="components"
-          :is-authenticated="isLogged"
+          :is-authenticated="isAuthorized"
           @edit="openEditModal"
           @delete="openDeleteModal"
         />
@@ -49,16 +49,17 @@
           :key="component.anycomponent_id"
           :component="component"
           :index="index"
-          :is-authenticated="isLogged"
+          :is-authenticated="isAuthorized"
           @edit="openEditModal"
           @delete="openDeleteModal"
         />
       </div>
 
       <!-- Pagination -->
-      <VPaginationComponents
+      <VPagination
         v-if="pagination.total > 0"
         :pagination="pagination"
+        :entity-paginated="entityLabel"
         @change-page="loadComponents"
       />
     </template>
@@ -75,14 +76,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useApi } from '@/modules/samples/composables/useApi'
 import { useAuth } from '@/modules/samples/composables/useAuth'
 import { showError, showSuccess } from '@/modules/samples/utils/alerts'
 import VTableComponents from '@/shared/components/tables/VTableComponents.vue'
 import VTabularCardComponent from '@/shared/components/cards/VTabularCardComponent.vue'
-import VPaginationComponents from '@/shared/components/tables/VPaginationComponents.vue'
-import VComponentDeleteModal from '@/shared/components/modals/VComponentDeleteModal.vue'
+import VPagination from '@/shared/components/tables/VPagination.vue'
+import VComponentDeleteModal from '@/shared/components/modals/VGenericDeleteModal.vue'
 import VComponentFormModal from '@/shared/components/modals/VComponentFormModal.vue'
 import VBlueLoading from '@/shared/components/utils/VBlueLoading.vue'
 import type { SimpleComponent } from '@/modules/samples/models/SimpleComponent'
@@ -92,9 +93,10 @@ import type { ApiResponse as ApiResponseWithMsg } from '@/modules/samples/models
 const { get, post, put, del } = useApi()
 
 const auth = useAuth()
-const isLogged = computed(() => auth.isAuthenticatedValue.value)
+const isAuthorized = auth.requiresEditor
 
 const components = ref<SimpleComponent[]>([])
+const entityLabel = ref('componentes')
 const pagination = ref({
   current_page: 1,
   last_page: 1,

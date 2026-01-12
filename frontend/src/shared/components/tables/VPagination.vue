@@ -4,7 +4,8 @@
   >
     <div class="text-sm text-gray-700 order-2 sm:order-1 dark:text-neutral-300">
       Mostrando
-      <span class="font-medium">{{ start }}-{{ end }} de {{ pagination.total }}</span> componentes
+      <span class="font-medium">{{ start }}-{{ end }} de {{ pagination.total }}</span>
+      {{ entityPaginated }}
     </div>
 
     <div class="flex items-center space-x-2 order-1 sm:order-2">
@@ -101,6 +102,7 @@ interface PaginationData {
 
 const props = defineProps<{
   pagination: PaginationData
+  entityPaginated: string
 }>()
 
 defineEmits<{

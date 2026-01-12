@@ -50,7 +50,7 @@
                 <select
                   v-model="formData.categoryLevel"
                   required
-                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:border-neutral-700"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-neutral-100 dark:border-neutral-700 dark:bg-neutral-900"
                 >
                   <option value="">Selecione...</option>
                   <option value="high-end">High End</option>

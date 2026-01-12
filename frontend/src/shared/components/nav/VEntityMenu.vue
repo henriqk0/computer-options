@@ -4,7 +4,7 @@
       @click="toggle"
       class="flex items-center px-3 py-2 rounded-md text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition duration-150 active:bg-gray-100 text-gray-900 dark:bg-neutral-800 dark:hover:bg-neutral-900 dark:active:bg-neutral-950 dark:text-white"
     >
-      <span class="mr-1">Componentes</span>
+      <span class="mr-1">{{ entity }}</span>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           stroke-linecap="round"
@@ -21,9 +21,9 @@
     >
       <div class="py-1">
         <RouterLink
-          to="/components"
+          :to="url"
           class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-neutral-900 dark:active:bg-neutral-950"
-          >Listar Componentes</RouterLink
+          >Listar {{ entity }}</RouterLink
         >
       </div>
     </div>
@@ -33,6 +33,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 const openMenu = ref(false)
+
+defineProps<{
+  entity: string
+  url: string
+}>()
+
 function toggle() {
   openMenu.value = !openMenu.value
 }

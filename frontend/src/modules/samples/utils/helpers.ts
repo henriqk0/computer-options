@@ -24,3 +24,14 @@ export function getColorClass(index: number): string {
   ]
   return colors[index % colors.length]!
 }
+
+export function getRoleColor(role: string): string {
+  const colorMapper = new Map([
+    ['user', 'bg-teal-600'],
+    ['editor', 'bg-blue-600'],
+    ['admin', 'bg-indigo-600'],
+  ]);
+  const roleColor = colorMapper.get(role)
+
+  return roleColor!
+}

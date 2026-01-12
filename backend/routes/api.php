@@ -12,7 +12,20 @@ Route::middleware(['jwt.verify', 'jwt.auto'])->post('logout', [AuthController::c
 Route::middleware(['jwt.verify', 'jwt.auto'])->get('user', [AuthController::class, 'user']);
 Route::middleware('jwt.refreshable')->post('refresh', [AuthController::class, 'refresh']);
 
-Route::middleware(['auth:api', 'role:user'])->post(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->get(
+    'listUsers',
+    [AuthController::class, 'listUsers']
+)->name('listUsers');
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->delete(
+    'deleteUser/{id}',
+    [AuthController::class, 'deleteUser']
+)->name('deleteUser');
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:admin'])->patch(
+    'patchRole/{id}',
+    [AuthController::class, 'patchRole']
+)->name('patchRole');
+
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->post(
     'createAnyComponent',
     [AnyComponentController::class, 'createAnyComponent']
 )->name('createAnyComponent');
@@ -37,18 +50,18 @@ Route::get(
     [AnyComponentController::class, 'showAnyComponent']
 )->name('showAnyComponent');
 
-Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->put(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->put(
     'updateAnyComponent',
     [AnyComponentController::class, 'updateAnyComponent']
 )->name('updateAnyComponent');
 
 // Review section
-Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->post(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->post(
     'createReview',
     [ReviewController::class, 'createReview']
 )->name('createReview');
 
-Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->delete(
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->delete(
     'deleteAnyComponent/{id}',
     [AnyComponentController::class, 'deleteAnyComponent']
 )->name('deleteAnyComponent');

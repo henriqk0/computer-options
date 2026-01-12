@@ -11,7 +11,7 @@
             Confirmar Exclusão
           </h3>
           <p class="text-gray-600 mb-6 dark:text-neutral-300/77">
-            Tem certeza que deseja excluir este componente? Esta ação não pode ser desfeita.
+            Tem certeza que deseja excluir? Esta ação não pode ser desfeita.
           </p>
           <div class="flex space-x-3">
             <button

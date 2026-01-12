@@ -1,3 +1,4 @@
+import ListUsers from '@/modules/samples/pages/admin/ListUsers.vue'
 import HomePage from '@/modules/samples/pages/HomePage.vue'
 import ListComponent from '@/modules/samples/pages/myComponents/ListComponent.vue'
 import SearchComponent from '@/modules/samples/pages/myComponents/SearchComponent.vue'
@@ -24,6 +25,11 @@ export const routes: RouteRecordRaw[] = [
         path: 'my-reviews',
         component: ListReviews,
         meta: { requiresAuth: true, title: "Minhas Reviews | TechComponenents" }
+      },
+      {
+        path: 'users',
+        component: ListUsers,
+        meta: { requiresAdmin: true, title: "Usuários Cadastrados | TechComponenents" }
       },
       {
         path: 'show-component/:id',

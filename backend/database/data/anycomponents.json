@@ -1,0 +1,106 @@
+[
+    {
+        "nameComponent": "RTX 5060",
+        "categoryLevel": "mid-end",
+        "bestPrice": 1800,
+        "datePrice": "2025-09-28",
+        "urlPrice": "https://kabum.com.br",
+        "about": "PCIe 5.0"
+    },
+    {
+        "nameComponent": "RTX 3050 6gb",
+        "categoryLevel": "mid-end",
+        "bestPrice": 1100,
+        "datePrice": "2025-07-12",
+        "urlPrice": "https://terabyteshop.com.br",
+        "about": "Placa gráfica que consome 75w com suporte a ray-tracing"
+    },
+    {
+        "nameComponent": "RX 7600",
+        "categoryLevel": "mid-end",
+        "bestPrice": 1280,
+        "datePrice": "2025-11-28",
+        "urlPrice": "https://terabyteshop.com.br",
+        "about": "FSSR, 8GB VRAM"
+    },
+    {
+        "nameComponent": "Fone de Ouvido RY4S",
+        "categoryLevel": "low-end",
+        "bestPrice": 15,
+        "datePrice": "2022-04-14",
+        "urlPrice": "https://terabyteshop.com.br",
+        "about": "Fone Earbud 50ohms de alto desempenho"
+    },
+    {
+        "nameComponent": "Fone de Ouvido KZ EDC Pro",
+        "categoryLevel": "low-end",
+        "bestPrice": 43,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://pt.aliexpress.com",
+        "about": "Fone Intrauricular"
+    },
+    {
+        "nameComponent": "Fone de Ouvido Anker Soundcore P20i",
+        "categoryLevel": "low-end",
+        "bestPrice": 181,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://pt.aliexpress.com/item/1005005472256209.html",
+        "about": "Fone Intra-auricular Bluetooth com case de carregamento. 10h de bateria + 30h de com a case de carregamento."
+    },
+    {
+        "nameComponent": "Fone de Ouvido KZ EDC Pro",
+        "categoryLevel": "low-end",
+        "bestPrice": 43,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://pt.aliexpress.com",
+        "about": "Fone Intrauricular"
+    },
+    {
+        "nameComponent": "Monitor de Áudio EDIFIER MR4 - 42W RMS",
+        "categoryLevel": "mid-end",
+        "bestPrice": 999,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://edifier.com.br/monitor-de-audio-mr4-edifier-42w-rms.html",
+        "about": "Sensibilidade de entrada: Entrada TRS balanceada: +4dBu. Entrada AUX/RCA não balanceada: -10dBV. Saída de potência: 21W+21W. Resposta de frequência: 60Hz-20KHz. Relação sinal/ruído ≥85dBA. Distorção ≤0,2%. Unidade Tweeter: 1 polegada. Unidade woofer: 4 polegadas. Entradas de áudio: Entrada TRS balanceada, Entrada RCA não balanceada. Entrada AUX não balanceada. Voltagem Bivolt: 100-240 V AC/50-60 Hz"
+    },
+    {
+        "nameComponent": "Monitor de Áudio Edifier S1000MKII",
+        "categoryLevel": "mid-end",
+        "bestPrice": 2499,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://edifier.com.br/monitor-de-audio-120w-rms-edifier-s1000mkii-qualcomm-aptx-hd-madeira.html",
+        "about": "Potência de saída: 120W RMS • Tweeter: 25W RMS x 2 • Mid-range e Graves: 35W RMS x 2 Resposta de frequência: 45Hz ~ 40KHz Unidades de Midrange / Graves: 5.5'' (polegadas) Relação sinal/ruído: ≥ 90dBA Sensibilidade de entrada: • Line in 1：750±50mV • Line in 2 ：900±50mV • Optica Digital / Coaxial: 350 mFFs ± 50 mFFs • Bluetooth: 450±50mV"
+    },
+    {
+        "nameComponent": "Amplificador e DAC Fosi audio q4",
+        "categoryLevel": "low-end",
+        "bestPrice": 213.78,
+        "datePrice": "2026-01-08",
+        "urlPrice": "https://pt.aliexpress.com/item/4001350723851.html",
+        "about": "usb gaming dac & amplificador de fone de ouvido adaptador conversor de áudio para casa/desktop alimentado/alto-falantes ativos"
+    },
+    {
+        "nameComponent": "Ryzen 5 5600GT",
+        "categoryLevel": "mid-end",
+        "bestPrice": 599,
+        "datePrice": "2025-03-08",
+        "urlPrice": "https://www.kabum.com.br/produto/520368/processador-amd-ryzen-5-5600gt-3-6-ghz-4-6ghz-max-turbo-cache-4mb-6-nucleos-12-threads-am4-100-100001488box",
+        "about": "usb gaming dac & amplificador de fone de ouvido adaptador conversor de áudio para casa/desktop alimentado/alto-falantes ativos"
+    },
+    {
+        "nameComponent": "i7-14700KF",
+        "categoryLevel": "high-end",
+        "bestPrice": 2299.99,
+        "datePrice": "2025-03-08",
+        "urlPrice": "https://www.kabum.com.br/produto/497577/processador-intel-core-i7-14700kf-14-geracao-5-6-ghz-max-turbo-cache-33mb-20-nucleos-28-threads-lga1700-bx8071514700kf",
+        "about": "Arquitetura de 20 núcleos e 28 threads, com frequência de até 5.6 GHz para desempenho superior. Para placas mãe LGA1700"
+    },
+    {
+        "nameComponent": "i5-12400F",
+        "categoryLevel": "mid-end",
+        "bestPrice": 759.99,
+        "datePrice": "2025-03-08",
+        "urlPrice": "https://www.kabum.com.br/produto/283718/processador-intel-core-i5-12400f-2-5ghz-4-4ghz-max-turbo-cache-18mb-lga-1700-bx8071512400f",
+        "about": "- Soquete: LGA1700<br /><br />- Potência de base do processador (W): 65 até 117 <br /><br /><br />Freq. base do processador:<br /><br />- Freq. base P-core (GHz): 2,5<br /><br /> <br /><br />Frequência turbo do processador:<br /><br />- Tamanho do Intel Smart Cache (L3): 18MB<br /><br />- Cache L2 total: 7,5MB<br /><br />- Núcleos do processador (P-cores + E-cores): 6 (6P+0E)<br /><br />- Threads do processador: 12<br /><br />- Velocidade máxima da memória(MT/s): DDR5 4800 | DDR4 3200<br /><br />- Frequência turbo máx.: Até 4,4<br /><br />- Frequência turbo máx. P-Core (GHz): Até 4,4"
+    }
+]
