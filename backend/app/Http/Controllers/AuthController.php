@@ -81,9 +81,20 @@ class AuthController extends Controller
         try {
             $perPage = $request->get('per_page', 8);
             $perPage = min($perPage, 80); # limit
-            $comps = User::paginate($perPage);
 
-            return response()->json($comps, 200);
+            $search = $request->string('search')->trim();
+
+            $users = User::query()
+                ->when($search, function ($query, $search) {
+                    $query->where(function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhere('role', 'like', "%{$search}%");
+                    });
+                })
+                ->paginate($perPage);
+
+            return response()->json($users, 200);
 
         } catch (Exception $e) {
             return response()->json([

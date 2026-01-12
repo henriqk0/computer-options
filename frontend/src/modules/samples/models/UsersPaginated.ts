@@ -15,4 +15,5 @@ export interface UsersPaginated {
   prev_page_url: string;
   to: number;
   total: number;
+  search: string;
 }

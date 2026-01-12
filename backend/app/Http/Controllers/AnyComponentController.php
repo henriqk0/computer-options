@@ -15,7 +15,16 @@ class AnyComponentController extends Controller
         try {
             $perPage = $request->get('per_page', 8);
             $perPage = min($perPage, 80); # limit
-            $comps = AnyComponent::paginate($perPage);
+
+            $search = $request->string('search')->trim();
+
+            $comps = AnyComponent::query()
+                ->when($search, function ($query, $search) {
+                    $query->where(function ($q) use ($search) {
+                        $q->where('nameComponent', 'like', "%{$search}%");
+                    });
+                })
+                ->paginate($perPage);
 
             return response()->json($comps, 200);
 
