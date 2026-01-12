@@ -5,6 +5,12 @@
       <p class="text-gray-600 mt-2 dark:text-neutral-400">
         Gerencie os usuários registrados no sistema
       </p>
+
+      <VTableSearcher
+        @to-search="handleSearchEvent"
+        :searchable-fields="['email', 'nome', 'papel']"
+        class="mt-5 mb-5"
+      />
     </div>
 
     <div v-if="loading">
@@ -47,6 +53,7 @@ import VUsersCard from '@/shared/components/cards/VUsersCard.vue'
 import VPagination from '@/shared/components/tables/VPagination.vue'
 import VUserDeleteModal from '@/shared/components/modals/VGenericDeleteModal.vue'
 import VChangeRoleModal from '@/shared/components/modals/VChangeRoleModal.vue'
+import VTableSearcher from '@/shared/components/tables/VTableSearcher.vue'
 import VBlueLoading from '@/shared/components/utils/VBlueLoading.vue'
 import type { ApiResponse as ApiResponseWithMsg } from '@/modules/samples/models/ApiResponseWithMsg'
 
@@ -73,10 +80,14 @@ const showDeleteModal = ref(false)
 const editingUserRole = ref<UserWithRole | null>(null)
 const deletingUserId = ref<number | null>(null)
 
-async function loadUsers(page = 1, perPage = 8) {
+async function handleSearchEvent(searchedField: string) {
+  await loadUsers(pagination.value.current_page, 8, searchedField)
+}
+
+async function loadUsers(page = 1, perPage = 8, searchValue = '') {
   try {
     const response = await get<UsersPaginated>('/listUsers', {
-      params: { page, per_page: perPage },
+      params: { page, per_page: perPage, search: searchValue },
     })
 
     const paginated = response.data
@@ -91,7 +102,6 @@ async function loadUsers(page = 1, perPage = 8) {
       total: paginated.total,
     }
 
-    console.log(users)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     showError('Erro ao carregar usuários: ' + (error.response?.data?.message || error.message))

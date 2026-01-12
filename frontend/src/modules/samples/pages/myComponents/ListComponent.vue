@@ -7,21 +7,29 @@
       <p class="text-gray-600 mt-2 dark:text-neutral-400">
         Gerencie os diferentes componentes disponíveis
       </p>
-      <button
-        v-if="isAuthorized"
-        @click="openAddModal"
-        class="flex items-center mt-4 space-x-2 px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition duration-150"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 4v16m8-8H4"
-          ></path>
-        </svg>
-        <span>Adicionar Componente</span>
-      </button>
+
+      <div v-if="isAuthorized" class="flex flex-col md:flex-row">
+        <button
+          @click="openAddModal"
+          class="flex items-center mt-4 space-x-2 px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition duration-150"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            ></path>
+          </svg>
+          <span>Adicionar Componente</span>
+        </button>
+
+        <VTableSearcher
+          @to-search="handleSearchEvent"
+          :searchable-fields="['nome']"
+          class="md:ml-5"
+        />
+      </div>
     </div>
 
     <div v-if="loading">
@@ -31,6 +39,7 @@
     <!-- Content -->
     <template v-else>
       <!-- Table View (Desktop/Tablet) -->
+
       <div
         class="hidden md:block rounded-lg border border-gray-200 overflow-hidden dark:bg-neutral-800 dark:border-neutral-700"
       >
@@ -85,6 +94,7 @@ import VTabularCardComponent from '@/shared/components/cards/VTabularCardCompone
 import VPagination from '@/shared/components/tables/VPagination.vue'
 import VComponentDeleteModal from '@/shared/components/modals/VGenericDeleteModal.vue'
 import VComponentFormModal from '@/shared/components/modals/VComponentFormModal.vue'
+import VTableSearcher from '@/shared/components/tables/VTableSearcher.vue'
 import VBlueLoading from '@/shared/components/utils/VBlueLoading.vue'
 import type { SimpleComponent } from '@/modules/samples/models/SimpleComponent'
 import type { SimpleComponentPaginated } from '@/modules/samples/models/SimpleComponentPaginated'
@@ -112,10 +122,14 @@ const showDeleteModal = ref(false)
 const editingComponent = ref<SimpleComponent | null>(null)
 const deletingComponentId = ref<number | null>(null)
 
-async function loadComponents(page = 1, perPage = 8) {
+async function handleSearchEvent(searchedField: string) {
+  await loadComponents(pagination.value.current_page, 8, searchedField)
+}
+
+async function loadComponents(page = 1, perPage = 8, searchValue = '') {
   try {
     const response = await get<SimpleComponentPaginated>('/listAnyComponent', {
-      params: { page, per_page: perPage },
+      params: { page, per_page: perPage, search: searchValue },
     })
 
     const paginated = response.data
