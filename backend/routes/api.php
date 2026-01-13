@@ -55,17 +55,12 @@ Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->put(
     [AnyComponentController::class, 'updateAnyComponent']
 )->name('updateAnyComponent');
 
-// Review section
-Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->post(
-    'createReview',
-    [ReviewController::class, 'createReview']
-)->name('createReview');
-
 Route::middleware(['jwt.verify', 'jwt.auto', 'role:editor'])->delete(
     'deleteAnyComponent/{id}',
     [AnyComponentController::class, 'deleteAnyComponent']
 )->name('deleteAnyComponent');
 
+// Review section
 Route::get(
     'listBestReview/{componentId}',
     [ReviewController::class, 'listBestReview']
@@ -80,6 +75,11 @@ Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->get(
     'listMyReview',
     [ReviewController::class, 'listMyReview']
 )->name('listMyReview');
+
+Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->post(
+    'createReview',
+    [ReviewController::class, 'createReview']
+)->name('createReview');
 
 Route::middleware(['jwt.verify', 'jwt.auto', 'role:user'])->put(
     'updateReview',

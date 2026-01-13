@@ -149,29 +149,32 @@ async function handleToggleLike(reviewId: number, likeId: number | null) {
   }
 
   try {
-    if (likeId) {
-      // unlike
-      await del(`/unlike/${likeId}`)
+    const review = reviews.value.find((r) => r.id === reviewId)
 
-      // update local state
-      const review = reviews.value.find((r) => r.id === reviewId)
-      if (review) {
+    if (review) {
+      const likeIdExistentButNotLoaded = review.likes.find((l: Like) => l.user_id === userId.value)
+
+      if (likeId || likeIdExistentButNotLoaded?.id) {
+        // pick the real likeId
+        const realLikeId = likeId ?? likeIdExistentButNotLoaded?.id
+
+        // unlike
+        await del(`/unlike/${realLikeId}`)
+
+        // update local state
         review.likes_count--
-        review.likes = review.likes.filter((l: Like) => l.id !== likeId)
-      }
-    } else {
-      // like
-      const response = await post<{ id: number }>('/like', {
-        user_id: userId.value,
-        review_id: reviewId,
-      })
+        review.likes = review.likes.filter((l: Like) => l.id !== realLikeId)
+      } else {
+        // like
+        const response = await post<ApiResponseWithMsg<Like>>('/like', {
+          user_id: userId.value,
+          review_id: reviewId,
+        })
 
-      // update local state
-      const review = reviews.value.find((r) => r.id === reviewId)
-      if (review) {
+        // update local state
         review.likes_count++
         review.likes.push({
-          id: response.data.id,
+          id: response.data.data!.id,
           user_id: userId.value,
           review_id: reviewId,
           created_at: new Date().toISOString(),

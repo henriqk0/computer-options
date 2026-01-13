@@ -95,8 +95,6 @@ async function fetchSearchedComps(toSearch: string, withAll: boolean = false) {
       searchedLabel.value = ''
     }
 
-    console.log(searchedComponents.value.length)
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     showError('Erro ao carregar componentes: ' + (error.response?.data?.message || error.message))
